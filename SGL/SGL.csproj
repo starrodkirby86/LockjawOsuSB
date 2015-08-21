@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ECFA9E48-757A-4B09-B495-35C4F11546A5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SGL</RootNamespace>
+    <AssemblyName>SGL</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Framework\BaseStoryboard.cs" />
+    <Compile Include="Compiler.cs" />
+    <Compile Include="Framework\Curve\BezierCurve.cs" />
+    <Compile Include="Framework\Curve\Curve.cs" />
+    <Compile Include="Framework\Curve\TransformedCurve.cs" />
+    <Compile Include="Framework\SpriteGroup.cs" />
+    <Compile Include="Util\Vector2.cs" />
+    <Compile Include="Framework\SpritePool.cs" />
+    <Compile Include="Framework\SpritePools.cs" />
+    <Compile Include="Framework\Mesh.cs" />
+    <Compile Include="Library\Classes\MeshClass.cs" />
+    <Compile Include="Library\Classes\LayerClass.cs" />
+    <Compile Include="Library\Classes\ListClass.cs" />
+    <Compile Include="Library\Classes\AbstractClass.cs" />
+    <Compile Include="Library\Classes\AnimationClass.cs" />
+    <Compile Include="Library\Classes\SampleClass.cs" />
+    <Compile Include="Library\Classes\SpriteClass.cs" />
+    <Compile Include="Elements\CompilerException.cs" />
+    <Compile Include="Elements\Scope.cs" />
+    <Compile Include="Elements\CallItem.cs" />
+    <Compile Include="Library\Classes\AbstractVisualClass.cs" />
+    <Compile Include="Library\Functions\Calculation\CosFunction.cs" />
+    <Compile Include="Library\Functions\Calculation\ExpFunction.cs" />
+    <Compile Include="Library\Functions\Calculation\RandFunction.cs" />
+    <Compile Include="Library\Functions\Calculation\SinFunction.cs" />
+    <Compile Include="Library\Functions\IO\PrintFunction.cs" />
+    <Compile Include="Library\Functions\UserFunction.cs" />
+    <Compile Include="Framework\Map.cs" />
+    <Compile Include="Nodes\Actions\AssignVariableNode.cs" />
+    <Compile Include="Nodes\Actions\DefineVariableNode.cs" />
+    <Compile Include="Nodes\Actions\NullNode.cs" />
+    <Compile Include="Nodes\Actions\VarDecNode.cs" />
+    <Compile Include="Nodes\Actions\VarIncNode.cs" />
+    <Compile Include="Nodes\ControlFlow\AtNode.cs" />
+    <Compile Include="Nodes\ControlFlow\BlockNode.cs" />
+    <Compile Include="Nodes\ControlFlow\IfNode.cs" />
+    <Compile Include="Nodes\ControlFlow\WhileNode.cs" />
+    <Compile Include="Nodes\Values\AtomNode.cs" />
+    <Compile Include="Elements\GlobalMemory.cs" />
+    <Compile Include="Elements\LibraryManager.cs" />
+    <Compile Include="Elements\Value.cs" />
+    <Compile Include="Elements\ValueType.cs" />
+    <Compile Include="Library\Functions\Function.cs" />
+    <Compile Include="Nodes\ControlFlow\ForNode.cs" />
+    <Compile Include="Nodes\AbstractNode.cs" />
+    <Compile Include="Nodes\Actions\InstanciateClassNode.cs" />
+    <Compile Include="Antlr\SGLLexer.cs" />
+    <Compile Include="Antlr\SGLParser.cs" />
+    <Compile Include="Antlr\SGLTreeWalker.cs" />
+    <Compile Include="Nodes\Actions\InvokeFunctionNode.cs" />
+    <Compile Include="Nodes\Operators\AbstractBinaryOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\AbstractTernaryOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\AbstractUnaryOperatorNode.cs" />
+    <Compile Include="Nodes\Operators\Arithmetical\AddNode.cs" />
+    <Compile Include="Nodes\Operators\Arithmetical\DivNode.cs" />
+    <Compile Include="Nodes\Operators\Arithmetical\ModNode.cs" />
+    <Compile Include="Nodes\Operators\Arithmetical\MultNode.cs" />
+    <Compile Include="Nodes\Operators\Arithmetical\NegateBoolNode.cs" />
+    <Compile Include="Nodes\Operators\Arithmetical\NegateIntNode.cs" />
+    <Compile Include="Nodes\Operators\Arithmetical\PowNode.cs" />
+    <Compile Include="Nodes\Operators\Arithmetical\SubNode.cs" />
+    <Compile Include="Nodes\Operators\Logical\AndNode.cs" />
+    <Compile Include="Nodes\Operators\Logical\EqualsNode.cs" />
+    <Compile Include="Nodes\Operators\Logical\GreaterThanEqualsNode.cs" />
+    <Compile Include="Nodes\Operators\Logical\GreaterThanNode.cs" />
+    <Compile Include="Nodes\Operators\Logical\LowerThanEqualsNode.cs" />
+    <Compile Include="Nodes\Operators\Logical\LowerThanNode.cs" />
+    <Compile Include="Nodes\Operators\Logical\NotEqualsNode.cs" />
+    <Compile Include="Nodes\Operators\Logical\OrNode.cs" />
+    <Compile Include="Nodes\Operators\Misc\ConditionalNode.cs" />
+    <Compile Include="Nodes\Values\BreakNode.cs" />
+    <Compile Include="Nodes\Values\IdentifierNode.cs" />
+    <Compile Include="Nodes\Values\ListNode.cs" />
+    <Compile Include="Nodes\Values\LookupNode.cs" />
+    <Compile Include="Nodes\Values\ReturnNode.cs" />
+    <Compile Include="Framework\SB.cs" />
+    <Compile Include="Storyboard\Commands\Animation.cs" />
+    <Compile Include="Storyboard\Commands\AnimationType.cs" />
+    <Compile Include="Storyboard\Commands\Command.cs" />
+    <Compile Include="Storyboard\Commands\CommandLoop.cs" />
+    <Compile Include="Storyboard\Commands\CommandTriggerLoop.cs" />
+    <Compile Include="Storyboard\Commands\Flag.cs" />
+    <Compile Include="Storyboard\Commands\FlagType.cs" />
+    <Compile Include="Storyboard\Generators\Sound\SampleGenerator.cs" />
+    <Compile Include="Storyboard\Generators\Visual\AnimationGenerator.cs" />
+    <Compile Include="Storyboard\Generators\AbstractGenerator.cs" />
+    <Compile Include="Storyboard\Generators\Visual\LayerGenerator.cs" />
+    <Compile Include="Storyboard\Generators\Visual\SpriteGenerator.cs" />
+    <Compile Include="Storyboard\Generators\Visual\AbstractVisualGenerator.cs" />
+    <Compile Include="Tests\AbstractTest.cs" />
+    <Compile Include="Tests\Tester.cs" />
+    <Compile Include="Tests\Unit.cs" />
+    <Compile Include="Tests\UnitTester.cs" />
+    <Compile Include="Tests\Values\Variable1Test.cs" />
+    <Compile Include="Util\ColorUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="antlr.runtime">
+      <HintPath>dll\antlr\antlr.runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>dll\antlr\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Utility">
+      <HintPath>dll\antlr\Antlr3.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="StringTemplate">
+      <HintPath>dll\antlr\StringTemplate.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Library\Functions\Conversion\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Nodes\nodes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="SGL.licenseheader" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

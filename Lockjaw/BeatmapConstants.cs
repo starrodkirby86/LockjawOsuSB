@@ -18,7 +18,7 @@ namespace Lockjaw
         public const int SONG_END_OFFSET = 124749;
 
         // Beat Snap Divisors
-        public const double BEAT_QUARTER = 300;
+        public const double BEAT_QUARTER = 1/SONG_BPM * 60 * 1000;
         public const double BEAT_EIGHTH = BEAT_QUARTER / 2;
         public const double BEAT_SIXTEENTH = BEAT_QUARTER / 4;
 
@@ -39,7 +39,7 @@ namespace Lockjaw
         public const int SCREEN_TOP = -5;
         public const int SCREEN_BOTTOM = SCREEN_HEIGHT + SCREEN_TOP;
 
-        public const int SCREEN_TOP_OFFSET = -25;
+        public const int SCREEN_TOP_OFFSET = 20;
 
         // !!!!
         // STORYBOARD SPECIFIC CONSTANTS
@@ -55,14 +55,14 @@ namespace Lockjaw
         public const int RAINDROP_VELOCITY = 600;
 
         // Maximum Raindrops on the screen per cloud
-        public const int MAX_RAINDROPS = 3;
+        public const int MAX_RAINDROPS = 500;
 
         // Height Ratio settings
         public const double MIN_HEIGHT = 0.1;
         public const double MAX_HEIGHT = 2.5;
 
         // Fade settings
-        public const double MAX_FADE = 0.75;
+        public const double MAX_FADE = 0.6;
 
         // Make the Raindrops' Y locations vary too!
         public const int DROP_VARIANCE = 400;

@@ -121,7 +121,7 @@ namespace Lockjaw
                 int ySlave = y;
                 
                 // Is where I'm falling going to hit a NoNo region?
-                while((indexY < BeatmapConstants.SCREEN_HEIGHT) && (!NoNoRegion.map[indexX, indexY]) && (ySlave < endDistance))
+                while((indexY < BeatmapConstants.SCREEN_HEIGHT) && (!NoNoRegion.map[indexX, indexY]))
                 {
                     // Keep running down Y until you hit a NoNo
                     indexY++;
@@ -134,9 +134,13 @@ namespace Lockjaw
                 t1 = (int)( (ySlave - y) / (pixelVelocity) );
 
                 // Fire the cannons
-                droplet.move(0, t0, t0+t1, x, y, x + angleOffset, ySlave);
+                if ((indexY < BeatmapConstants.SCREEN_HEIGHT) && !NoNoRegion.map[indexX, indexY])
+                {
+                    droplet.move(0, t0, t0 + t1, x, y, x + angleOffset, ySlave);
+                }
 
                 y = ySlave;
+                
                 // This loop will stop when ySlave is considered at the end.
                 //System.Diagnostics.Debug.WriteLine("Hit end of loop.");
             }

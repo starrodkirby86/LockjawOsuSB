@@ -39,6 +39,8 @@ namespace Lockjaw
         public const int SCREEN_TOP = -5;
         public const int SCREEN_BOTTOM = SCREEN_HEIGHT + SCREEN_TOP;
 
+        public const int SCREEN_TOP_OFFSET = -25;
+
         // !!!!
         // STORYBOARD SPECIFIC CONSTANTS
         // !!!!
@@ -48,10 +50,12 @@ namespace Lockjaw
         public const int RAINDROP_HEIGHT = 114;
         
         // Raindrop Velocity (time it takes from top to bottom)
+        // In other words, this is how much ms it takes to go from
+        // y to SCREEN_HEIGHT + heightOffset
         public const int RAINDROP_VELOCITY = 600;
 
         // Maximum Raindrops on the screen per cloud
-        public const int MAX_RAINDROPS = 500;
+        public const int MAX_RAINDROPS = 3;
 
         // Height Ratio settings
         public const double MIN_HEIGHT = 0.1;

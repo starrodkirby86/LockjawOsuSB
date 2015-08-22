@@ -28,7 +28,7 @@ namespace Lockjaw
 
         // Property
         Bitmap sourceImage;
-        bool[,] map;
+        public bool[,] map;
 
         // Method
 

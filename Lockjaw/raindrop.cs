@@ -43,12 +43,15 @@ namespace Lockjaw
         public SGL.Storyboard.Generators.Visual.SpriteGenerator droplet;
 
         // Method
+
+       // DUMMY TEST COMMAND
         public void testDrop(int t0)
         {
             // Move command from top to bottom.
             droplet.move(0, t0, (int)(t0 + BeatmapConstants.BEAT_QUARTER), 320, 0, 320, BeatmapConstants.SCREEN_HEIGHT + (BeatmapConstants.RAINDROP_HEIGHT / 2));
         }
 
+        // EDIT SETTINGS OF RAINDROP COMMANDS
         public void applyRoll(int t0, double inpHeight, double fadeInp)
         {
             // Apply roll inputs into droplet.
@@ -85,18 +88,61 @@ namespace Lockjaw
 
         }
 
-        public void drop(int t0, int inpX, int inpY)
+        // RAINDROP METHOD
+        public void drop(int t0, int inpX, int inpY, CollisionMap NoNoRegion)
         {
             // Drop function.
             // Currently has the droplet from top to bottom.
+
+            // Initializations
             x = inpX;
             y = inpY;
+            int t1;
 
             // Height offset is used to compensate for the height ratio scale.
             var heightOffset = (int)(Math.Round((BeatmapConstants.RAINDROP_HEIGHT * heightRatio / 2)));
 
+            // Calculate the actual pixel velocity (rate) using constant RAINDROP_VELOCITY (time) and SCREEN_HEIGHT + heightOffset - y (distance)
+            // This is used to help find the endtime of a droplet's movement in the event that it hits a NoNo region and prematurely stops.
+            var endDistance = BeatmapConstants.SCREEN_HEIGHT + heightOffset;
+            double pixelVelocity = ((double)endDistance - (double)y) / ((double)BeatmapConstants.RAINDROP_VELOCITY);
+
+            // TOTALLY NEW IMPLEMENTATION ALGORITHM
+
+            // Use proper indexing of X and Y
+            var indexX = x + (BeatmapConstants.SCREEN_LEFT * -1);
+            var indexY = 0;
+            //var indexY = y + ((BeatmapConstants.SCREEN_TOP + BeatmapConstants.SCREEN_TOP_OFFSET) * -1);
+            
+
+            // Y must be in limbo for this to keep going.
+            while (indexY < BeatmapConstants.SCREEN_HEIGHT)
+            {
+                int ySlave = y;
+                
+                // Is where I'm falling going to hit a NoNo region?
+                while((indexY < BeatmapConstants.SCREEN_HEIGHT) && (!NoNoRegion.map[indexX, indexY]) && (ySlave < endDistance))
+                {
+                    // Keep running down Y until you hit a NoNo
+                    indexY++;
+                    ySlave++;
+                }
+
+                // Make a droplet from y to ySlave
+
+                // Find time t1 given rate (pixelVelocity) and distance (ySlave - y)
+                t1 = (int)( (ySlave - y) / (pixelVelocity) );
+
+                // Fire the cannons
+                droplet.move(0, t0, t0+t1, x, y, x + angleOffset, ySlave);
+
+                y = ySlave;
+                // This loop will stop when ySlave is considered at the end.
+                //System.Diagnostics.Debug.WriteLine("Hit end of loop.");
+            }
             // Fire the cannons
-            droplet.move(0, t0, t0 + BeatmapConstants.RAINDROP_VELOCITY, x, y, x+angleOffset, BeatmapConstants.SCREEN_HEIGHT + heightOffset);
+            // droplet.move(0, t0, t0 + BeatmapConstants.RAINDROP_VELOCITY, x, y, x+angleOffset, BeatmapConstants.SCREEN_HEIGHT + heightOffset);
+            //System.Diagnostics.Debug.WriteLine("Droplet done dropping.");
         }
 
 

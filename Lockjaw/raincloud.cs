@@ -9,7 +9,7 @@ CLASS: Raincloud
     X -- Some sort of timer I guess
     X -- Current implementation takes too much space/resources, make it more efficient but still truly random
     X -- Implement a rotation controller.
-      -- Implement a collision map controller.
+    X -- Implement a collision map controller.
 */
 
 
@@ -46,7 +46,8 @@ namespace Lockjaw
                     cloud[x2].drop(startTime + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE),
                         rng.Next(BeatmapConstants.SCREEN_LEFT, BeatmapConstants.SCREEN_RIGHT), 
                         BeatmapConstants.SCREEN_TOP-BeatmapConstants.SCREEN_TOP_OFFSET,
-                        NoNoRegion);
+                        NoNoRegion,
+                        false);
                 }
 
                // Queue for the next wrap.

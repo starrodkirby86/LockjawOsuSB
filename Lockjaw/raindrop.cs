@@ -15,7 +15,7 @@ CLASS: Raindrop
     X -- Successful screen wrap and loop.
     X -- Randomized x-location and height ratio.
     X -- Create rotation and angleOffset in droplet movement.
-      -- Develop algorithm for the NoNo region.
+    X -- Develop algorithm for the NoNo region.
 
 */
 
@@ -89,7 +89,7 @@ namespace Lockjaw
         }
 
         // RAINDROP METHOD
-        public void drop(int t0, int inpX, int inpY, CollisionMap NoNoRegion)
+        public void drop(int t0, int inpX, int inpY, CollisionMap NoNoRegion, bool underCollisionFlag)
         {
             // Drop function.
             // Currently has the droplet from top to bottom.
@@ -129,7 +129,7 @@ namespace Lockjaw
             int ySlave;
 
             // NEWER IMPLEMENTATION
-            while(indexY < NoNoRegion.map.GetLength(1))
+            while (indexY < NoNoRegion.map.GetLength(1))
             {
                 // Initialize.
                 // Update spot.
@@ -153,58 +153,30 @@ namespace Lockjaw
                 // Send a droplet to that location.
                 droplet.move(0, t0, t0 + t1, x, y, x + angleOffset, ySlave);
 
-                // Check if we have to create another droplet:
-                // The only condition to create another droplet
-                // would be if the NoNo Region gives way to an open spot
 
-                // So let's run a while loop to check for the next available spot.
-                while ((indexY < NoNoRegion.map.GetLength(1) && NoNoRegion.map[indexX,indexY]))
+                if (underCollisionFlag)
                 {
-                    indexY++;
+                    // Check if we have to create another droplet:
+                    // The only condition to create another droplet
+                    // would be if the NoNo Region gives way to an open spot
+
+                    // So let's run a while loop to check for the next available spot.
+                    while ((indexY < NoNoRegion.map.GetLength(1) && NoNoRegion.map[indexX, indexY]))
+                    {
+                        indexY++;
+                    }
+
+                    // So now that we're here, if the droplet is at the end, then we can finish our loop.
+                    // But now we have our new location updated as this is the next available spot
+                    // from the last NoNo Region hit. This spot CAN be the bottom of the screen, to which
+                    // then this is our last iteration.
+                    y += indexY;
                 }
-
-                // So now that we're here, if the droplet is at the end, then we can finish our loop.
-                // But now we have our new location updated as this is the next available spot
-                // from the last NoNo Region hit. This spot CAN be the bottom of the screen, to which
-                // then this is our last iteration.
-                y += indexY;
-
+                else
+                {
+                    break;
+                }
             }
-
-            /* OLD IMPLEMENTATION
-            // Y must be in limbo for this to keep going.
-            while (indexY < BeatmapConstants.SCREEN_HEIGHT)
-            {
-                int ySlave = y;
-                
-                // Is where I'm falling going to hit a NoNo region?
-                while((indexY < BeatmapConstants.SCREEN_HEIGHT) && (!NoNoRegion.map[indexX, indexY]))
-                {
-                    // Keep running down Y until you hit a NoNo
-                    indexY++;
-                    ySlave++;
-                }
-
-                // Make a droplet from y to ySlave
-
-                // Find time t1 given rate (pixelVelocity) and distance (ySlave - y)
-                t1 = (int)( (ySlave - y) / (pixelVelocity) );
-
-                // Fire the cannons
-                if ((indexY < BeatmapConstants.SCREEN_HEIGHT) && !NoNoRegion.map[indexX, indexY])
-                {
-                    droplet.move(0, t0, t0 + t1, x, y, x + angleOffset, ySlave);
-                }
-
-                y = ySlave;
-                
-                // This loop will stop when ySlave is considered at the end.
-                //System.Diagnostics.Debug.WriteLine("Hit end of loop.");
-            }
-            // Fire the cannons
-            // droplet.move(0, t0, t0 + BeatmapConstants.RAINDROP_VELOCITY, x, y, x+angleOffset, BeatmapConstants.SCREEN_HEIGHT + heightOffset);
-            //System.Diagnostics.Debug.WriteLine("Droplet done dropping.");
-            */
         }
 
 

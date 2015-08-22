@@ -78,11 +78,11 @@ namespace Lockjaw
             var peppyOsu = new Raincloud();
             //peppyOsu.makeItRain(400, 1);
             //peppyOsu.NoNoRegion.hardFill(60, 300, 60, 250);
-            peppyOsu.importMap("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dklogo.bmp");
+            peppyOsu.importMap("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dummy.bmp");
             peppyOsu.makeItRain(400, (int)(BeatmapConstants.SONG_END_OFFSET / BeatmapConstants.RAINDROP_VELOCITY)) ;
 
             var secondWave = new Raincloud();
-            secondWave.importMap("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dklogo.bmp");
+            secondWave.importMap("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dummy.bmp");
             //secondWave.NoNoRegion.hardFill(60, 300, 60, 250);
             secondWave.makeItRain(400, (int)(BeatmapConstants.SONG_END_OFFSET / BeatmapConstants.RAINDROP_VELOCITY));
 

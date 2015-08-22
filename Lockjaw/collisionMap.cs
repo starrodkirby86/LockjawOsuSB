@@ -9,7 +9,8 @@ CLASS: CollisionMap
     and it looks like Moses is doing something (not makin' it rain, that's already going).
 
     TODO:
-    -- Load a bitmap file and return a 2D array based on RGB pixel color.
+    X -- Load a bitmap file and return a 2D array based on RGB pixel color.
+     -- Shift collision map a certain direction.
 */
 
 using System;

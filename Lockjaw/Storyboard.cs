@@ -74,6 +74,13 @@ namespace Lockjaw
 
             var secondWave = new Raincloud();
             secondWave.makeItRain(400, (int)(BeatmapConstants.SONG_END_OFFSET / BeatmapConstants.RAINDROP_VELOCITY));
+
+            peppyOsu.createWind(62457, 70857, 15);
+            secondWave.createWind(62457, 70857, 15);
+
+            peppyOsu.createWind(72057, 80457, -15);
+            secondWave.createWind(72057, 80457, -15);
+
         }
     }
 }

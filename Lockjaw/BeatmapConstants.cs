@@ -62,5 +62,9 @@ namespace Lockjaw
 
         // Make the Raindrops' Y locations vary too!
         public const int DROP_VARIANCE = 400;
+
+        // Max rotation distance for a raindrop
+        // This will determine angleOffset
+        public const int MAX_ROTATION_DISTANCE = SCREEN_RIGHT;
     }
 }

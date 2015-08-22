@@ -14,6 +14,7 @@ CLASS: Raindrop
     X -- Make raindrop, lmao
     X -- Successful screen wrap and loop.
     X -- Randomized x-location and height ratio.
+    X -- Create rotation and angleOffset in droplet movement.
 
 */
 
@@ -36,6 +37,8 @@ namespace Lockjaw
         public double fadeSetting;
         public int x;
         public int y;
+        public double currentAngle;
+        public int angleOffset;
         public SGL.Storyboard.Generators.Visual.SpriteGenerator droplet;
 
         // Method
@@ -61,6 +64,26 @@ namespace Lockjaw
             droplet.scaleVec(0, t0, t0, 1, heightRatio, 1, heightRatio);
         }
 
+        public void rotate(int t0, int degInput)
+        {
+            // Rotates the raindrop particle to the desired angle.
+            // The angle is converted to radians, then the angleOffset is calculated.
+            // Finally, the raindrop gets updated.
+
+            // Conversion!
+            double radInput = Math.PI * degInput / 180.0;
+
+            // Calculate angleOffset
+            angleOffset = BeatmapConstants.MAX_ROTATION_DISTANCE * (degInput / 90);
+
+            // Now the raindrop will rotate
+            droplet.rotate(0, t0, t0 + BeatmapConstants.RAINDROP_VELOCITY * 2, currentAngle, radInput);
+
+            // Update radian
+            currentAngle = radInput;
+
+        }
+
         public void drop(int t0, int inpX, int inpY)
         {
             // Drop function.
@@ -72,7 +95,7 @@ namespace Lockjaw
             var heightOffset = (int)(Math.Round((BeatmapConstants.RAINDROP_HEIGHT * heightRatio / 2)));
 
             // Fire the cannons
-            droplet.move(0, t0, t0 + BeatmapConstants.RAINDROP_VELOCITY, x, y, x, BeatmapConstants.SCREEN_HEIGHT + heightOffset);
+            droplet.move(0, t0, t0 + BeatmapConstants.RAINDROP_VELOCITY, x, y, x+angleOffset, BeatmapConstants.SCREEN_HEIGHT + heightOffset);
         }
 
 
@@ -85,6 +108,8 @@ namespace Lockjaw
             fadeSetting = 1;
             x = 0;
             y = 0;
+            currentAngle = 0;
+            angleOffset = 0;
             
             // Make sprite.
             droplet = SB.Sprite(imagePath, SB.Foreground, SB.TopCentre);
@@ -99,6 +124,8 @@ namespace Lockjaw
             fadeSetting = fadeInp;
             x = 0;
             y = 0;
+            currentAngle = 0;
+            angleOffset = 0;
 
             // Make sprite.
             droplet = SB.Sprite(imagePath, SB.Foreground, SB.TopCentre);

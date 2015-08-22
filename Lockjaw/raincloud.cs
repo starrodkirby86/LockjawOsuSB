@@ -7,7 +7,8 @@ CLASS: Raincloud
     TODO:
     X -- Port my test code over in here. (IE MAKE THE RAINCLOUD AYY LMAO)
     X -- Some sort of timer I guess
-    -- Current implementation takes too much space/resources, make it more efficient but still truly random
+    X -- Current implementation takes too much space/resources, make it more efficient but still truly random
+    X -- Implement a rotation controller.
 */
 
 
@@ -47,6 +48,25 @@ namespace Lockjaw
                 startTime += BeatmapConstants.RAINDROP_VELOCITY;
             }
 
+        }
+
+        public void createWind(int startTime, int endTime, int degInput)
+        {
+            // Simulates the effect of wind by rotating the raindrops a certain way and
+            // having them move based off the angleOffset.
+            // Assume that no wind is rad 0.
+
+            // Begin the rotation
+            for (int x2 = 0; x2 < cloud.Length; x2++)
+            {
+                cloud[x2].rotate(startTime, degInput);
+            }
+
+            // End the rotation
+            for (int x2 = 0; x2 < cloud.Length; x2++)
+            {
+                cloud[x2].rotate(endTime, 0);
+            }
         }
 
         // Instance Constructor

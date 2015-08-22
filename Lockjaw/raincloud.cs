@@ -29,6 +29,7 @@ namespace Lockjaw
         // Property
         Random rng;
         Raindrop[] cloud;
+        public CollisionMap NoNoRegion;
 
         // Method
         public void makeItRain(int startTime, int iterations)
@@ -42,7 +43,10 @@ namespace Lockjaw
                 // Calling all droplets to duty.
                for(int x2 = 0; x2 < cloud.Length; x2++)
                 {
-                    cloud[x2].drop(startTime + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE), rng.Next(BeatmapConstants.SCREEN_LEFT, BeatmapConstants.SCREEN_RIGHT), BeatmapConstants.SCREEN_TOP-25);
+                    cloud[x2].drop(startTime + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE),
+                        rng.Next(BeatmapConstants.SCREEN_LEFT, BeatmapConstants.SCREEN_RIGHT), 
+                        BeatmapConstants.SCREEN_TOP-BeatmapConstants.SCREEN_TOP_OFFSET,
+                        NoNoRegion);
                 }
 
                // Queue for the next wrap.
@@ -70,15 +74,31 @@ namespace Lockjaw
             }
         }
 
+        public void importMap(string path)
+        {
+            // Imports a bitmap image into the collisionMap using string path.
+            NoNoRegion.bmp2CollisionMap(path);
+        }
+
+        public void clearMap()
+        {
+            // Clears the map.
+            NoNoRegion.clearMap();
+        }
+
         // Instance Constructor
         public Raincloud()
         {
             // NEW CLOUD
             rng = new Random();
             cloud = new Raindrop[BeatmapConstants.MAX_RAINDROPS];
+            NoNoRegion = new CollisionMap();
+            clearMap();
+
             for(int x = 0; x < cloud.Length; x++)
             {
-                cloud[x] = new Raindrop(BeatmapConstants.MIN_HEIGHT + rng.NextDouble() * BeatmapConstants.MAX_HEIGHT, rng.NextDouble() * BeatmapConstants.MAX_FADE);
+                cloud[x] = new Raindrop(BeatmapConstants.MIN_HEIGHT + rng.NextDouble() * BeatmapConstants.MAX_HEIGHT, 
+                    rng.NextDouble() * BeatmapConstants.MAX_FADE);
             }
         }
     }

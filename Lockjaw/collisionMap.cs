@@ -43,12 +43,17 @@ namespace Lockjaw
             // Load the bitmap. (You know, I should really implement try-catch methods lol)
             sourceImage = new Bitmap(path, true);
 
+            // Make some temporary comparison variables to make life easier.
+            Color sourcePixelColor;
+
+
             // GetPixel mania!
-            for (int x1 = 0; x1 < BeatmapConstants.SCREEN_WIDTH; x1++)
+            for (int x1 = 0; x1 < sourceImage.Width; x1++)
             {
-                for (int x2 = 0; x2 < BeatmapConstants.SCREEN_HEIGHT; x2++)
+                for (int x2 = 0; x2 < sourceImage.Height; x2++)
                 {
-                    map[x1, x2] = (sourceImage.GetPixel(x1, x2) != Color.White);
+                    sourcePixelColor = sourceImage.GetPixel(x1, x2);
+                    map[x1,x2] = sourcePixelColor.ToArgb().Equals(Color.Black.ToArgb());
                 }
             }
 
@@ -62,6 +67,18 @@ namespace Lockjaw
                 for(int x2 = 0; x2 < BeatmapConstants.SCREEN_HEIGHT; x2++)
                 {
                     map[x1,x2] = false;
+                }
+            }
+        }
+
+        public void hardFill(int x0, int x1, int y0, int y1)
+        {
+            // Rectangle fill a spot with true.
+            for(int i = x0; i < x1; i++)
+            {
+                for(int j = y0; j < y1; j++)
+                {
+                    map[i, j] = true;
                 }
             }
         }

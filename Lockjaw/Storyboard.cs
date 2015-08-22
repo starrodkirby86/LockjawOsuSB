@@ -69,13 +69,21 @@ namespace Lockjaw
             // Main code goes here.
             // All code in here will belong in the .osb file.
 
+            // Background
+            var tempBG = SB.Sprite("sb\\kq.png", SB.Background, SB.TopCentre);
+            tempBG.move(0, 0, 0, 320, -10, 320, -10);
+            tempBG.fade(0, 0, BeatmapConstants.SONG_END_OFFSET, 1, 1);
+            
+            // Rain particles
             var peppyOsu = new Raincloud();
             //peppyOsu.makeItRain(400, 1);
-            //peppyOsu.importMap("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dummy.bmp");
+            //peppyOsu.NoNoRegion.hardFill(60, 300, 60, 250);
+            peppyOsu.importMap("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dklogo.bmp");
             peppyOsu.makeItRain(400, (int)(BeatmapConstants.SONG_END_OFFSET / BeatmapConstants.RAINDROP_VELOCITY)) ;
 
             var secondWave = new Raincloud();
-            secondWave.importMap("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dummy.bmp");
+            secondWave.importMap("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dklogo.bmp");
+            //secondWave.NoNoRegion.hardFill(60, 300, 60, 250);
             secondWave.makeItRain(400, (int)(BeatmapConstants.SONG_END_OFFSET / BeatmapConstants.RAINDROP_VELOCITY));
 
             peppyOsu.createWind(62457, 70857, 15);

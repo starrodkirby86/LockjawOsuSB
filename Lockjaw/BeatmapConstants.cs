@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lockjaw
 {
-    static class BeatmapConstants 
+    static class BeatmapConstants
     {
         // !!!!
         // SONG SPECIFIC CONSTANTS
@@ -18,7 +18,7 @@ namespace Lockjaw
         public const int SONG_END_OFFSET = 124749;
 
         // Beat Snap Divisors
-        public const double BEAT_QUARTER = 1/SONG_BPM * 60 * 1000;
+        public const double BEAT_QUARTER = 1 / SONG_BPM * 60 * 1000;
         public const double BEAT_EIGHTH = BEAT_QUARTER / 2;
         public const double BEAT_SIXTEENTH = BEAT_QUARTER / 4;
 
@@ -41,6 +41,9 @@ namespace Lockjaw
 
         public const int SCREEN_TOP_OFFSET = 20;
 
+        public const int PLAYFIELD_OFFSET_X = 64;
+        public const int PLAYFIELD_OFFSET_Y = 56;
+
         // !!!!
         // STORYBOARD SPECIFIC CONSTANTS
         // !!!!
@@ -48,7 +51,7 @@ namespace Lockjaw
         // Raindrop Dimensions
         public const int RAINDROP_WIDTH = 4;
         public const int RAINDROP_HEIGHT = 114;
-        
+
         // Raindrop Velocity (time it takes from top to bottom)
         // In other words, this is how much ms it takes to go from
         // y to SCREEN_HEIGHT + heightOffset

@@ -45,28 +45,34 @@ namespace Lockjaw
             droplet.move(0, t0, (int)(t0 + BeatmapConstants.BEAT_QUARTER), 320, 0, 320, BeatmapConstants.SCREEN_HEIGHT + (BeatmapConstants.RAINDROP_HEIGHT / 2));
         }
 
-        public void drop(int t0, int inpX, double inpHeight, double fadeInp)
+        public void applyRoll(int t0, double inpHeight, double fadeInp)
         {
+            // Apply roll inputs into droplet.
+
             // Rolls a random x-location and height @ t0,
             // then makes the droplet move from top to bottom. (FOR NOW)
 
-            // Ro-kyu-bu! Rolling rolling rolling (has been done)!
-            x = inpX;
+            // Ro-kyu-bu! Rolling rolling rolling (has been done)
             heightRatio = inpHeight;
             fadeSetting = fadeInp;
+         
+            // Apply settings.
+            droplet.fade(0, t0, t0, fadeSetting, fadeSetting);
+            droplet.scaleVec(0, t0, t0, 1, heightRatio, 1, heightRatio);
+        }
+
+        public void drop(int t0, int inpX, int inpY)
+        {
+            // Drop function.
+            // Currently has the droplet from top to bottom.
+            x = inpX;
+            y = inpY;
 
             // Height offset is used to compensate for the height ratio scale.
             var heightOffset = (int)(Math.Round((BeatmapConstants.RAINDROP_HEIGHT * heightRatio / 2)));
 
-            // Fade is used to control transparency of raindrop.
-            droplet.fade(0, t0, t0, fadeSetting, fadeSetting);
-
-            // Move droplet to safe, hidden place, scaled
-            droplet.move(0, t0, t0, x, 0 - heightOffset, x, 0 - heightOffset);
-            droplet.scaleVec(0, t0, t0, 1, heightRatio, 1, heightRatio);
-
             // Fire the cannons
-            droplet.move(0, t0, t0 + BeatmapConstants.RAINDROP_VELOCITY, x, 0, x, BeatmapConstants.SCREEN_HEIGHT + heightOffset);
+            droplet.move(0, t0, t0 + BeatmapConstants.RAINDROP_VELOCITY, x, y, x, BeatmapConstants.SCREEN_HEIGHT + heightOffset);
         }
 
 
@@ -76,11 +82,29 @@ namespace Lockjaw
             // Give information.
             imagePath = "sb\\rd.png";
             heightRatio = 1;
+            fadeSetting = 1;
             x = 0;
             y = 0;
             
             // Make sprite.
             droplet = SB.Sprite(imagePath, SB.Foreground, SB.TopCentre);
+        }
+
+        public Raindrop(double heightInp, double fadeInp)
+        {
+            // Height ratio and fade setting are defined
+            // upon declaration of the raindrop.
+            imagePath = "sb\\rd.png";
+            heightRatio = heightInp;
+            fadeSetting = fadeInp;
+            x = 0;
+            y = 0;
+
+            // Make sprite.
+            droplet = SB.Sprite(imagePath, SB.Foreground, SB.TopCentre);
+
+            // Apply settings
+            applyRoll(0, heightRatio, fadeSetting);
         }
 
     }

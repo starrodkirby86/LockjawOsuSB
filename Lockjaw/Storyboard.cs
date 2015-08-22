@@ -70,10 +70,10 @@ namespace Lockjaw
             // All code in here will belong in the .osb file.
 
             var peppyOsu = new Raincloud();
-            peppyOsu.makeItRain(400, 414);
+            peppyOsu.makeItRain(400, (int)(BeatmapConstants.SONG_END_OFFSET / BeatmapConstants.RAINDROP_VELOCITY)) ;
 
             var secondWave = new Raincloud();
-            secondWave.makeItRain(400, 414);
+            secondWave.makeItRain(400, (int)(BeatmapConstants.SONG_END_OFFSET / BeatmapConstants.RAINDROP_VELOCITY));
         }
     }
 }

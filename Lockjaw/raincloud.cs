@@ -40,7 +40,7 @@ namespace Lockjaw
                 // Calling all droplets to duty.
                for(int x2 = 0; x2 < cloud.Length; x2++)
                 {
-                    cloud[x2].drop(startTime + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE), rng.Next(0, 1367), BeatmapConstants.MIN_HEIGHT + rng.NextDouble() * BeatmapConstants.MAX_HEIGHT, rng.NextDouble()*BeatmapConstants.MAX_FADE);
+                    cloud[x2].drop(startTime + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE), rng.Next(BeatmapConstants.SCREEN_LEFT, BeatmapConstants.SCREEN_RIGHT), BeatmapConstants.SCREEN_TOP-25);
                 }
 
                // Queue for the next wrap.
@@ -57,7 +57,7 @@ namespace Lockjaw
             cloud = new Raindrop[BeatmapConstants.MAX_RAINDROPS];
             for(int x = 0; x < cloud.Length; x++)
             {
-                cloud[x] = new Raindrop();
+                cloud[x] = new Raindrop(BeatmapConstants.MIN_HEIGHT + rng.NextDouble() * BeatmapConstants.MAX_HEIGHT, rng.NextDouble() * BeatmapConstants.MAX_FADE);
             }
         }
     }

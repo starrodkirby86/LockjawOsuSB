@@ -9,6 +9,7 @@ CLASS: Raincloud
     X -- Some sort of timer I guess
     X -- Current implementation takes too much space/resources, make it more efficient but still truly random
     X -- Implement a rotation controller.
+      -- Implement a collision map controller.
 */
 
 

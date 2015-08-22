@@ -15,6 +15,7 @@ CLASS: Raindrop
     X -- Successful screen wrap and loop.
     X -- Randomized x-location and height ratio.
     X -- Create rotation and angleOffset in droplet movement.
+      -- Develop algorithm for the NoNo region.
 
 */
 

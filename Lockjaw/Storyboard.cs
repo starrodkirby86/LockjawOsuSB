@@ -76,21 +76,21 @@ namespace Lockjaw
             
             // Rain particles
             var peppyOsu = new Raincloud();
-            //peppyOsu.makeItRain(400, 1);
+
             //peppyOsu.NoNoRegion.hardFill(60, 300, 60, 250);
-            peppyOsu.importMap("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dummy.bmp");
+            //peppyOsu.importMap("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dummy.bmp");
+
+            // Region List editing...
+            peppyOsu.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\rectOK.bmp", 19257);
+            peppyOsu.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\rectOK2.bmp", 38457);
+            peppyOsu.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dog.bmp", 48057);
+            peppyOsu.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\circleTest.bmp", 52857);
+
             peppyOsu.makeItRain(400, (int)(BeatmapConstants.SONG_END_OFFSET / BeatmapConstants.RAINDROP_VELOCITY)) ;
 
-            var secondWave = new Raincloud();
-            secondWave.importMap("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dummy.bmp");
-            //secondWave.NoNoRegion.hardFill(60, 300, 60, 250);
-            secondWave.makeItRain(400, (int)(BeatmapConstants.SONG_END_OFFSET / BeatmapConstants.RAINDROP_VELOCITY));
-
             peppyOsu.createWind(62457, 70857, 15);
-            secondWave.createWind(62457, 70857, 15);
 
             peppyOsu.createWind(72057, 80457, -15);
-            secondWave.createWind(72057, 80457, -15);
 
         }
     }

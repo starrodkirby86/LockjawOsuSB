@@ -34,9 +34,9 @@ namespace Lockjaw
         public const int PLAYFIELD_HEIGHT = 385;
 
         // Minimum and Maximum Locations due to Widescreen Support
-        public const int SCREEN_LEFT = -120;
+        public const int SCREEN_LEFT = -107;
         public const int SCREEN_RIGHT = SCREEN_WIDTH + SCREEN_LEFT;
-        public const int SCREEN_TOP = -5;
+        public const int SCREEN_TOP = 0;
         public const int SCREEN_BOTTOM = SCREEN_HEIGHT + SCREEN_TOP;
 
         public const int SCREEN_TOP_OFFSET = 20;
@@ -58,7 +58,7 @@ namespace Lockjaw
         public const int RAINDROP_VELOCITY = 600;
 
         // Maximum Raindrops on the screen per cloud
-        public const int MAX_RAINDROPS = 500;
+        public const int MAX_RAINDROPS = 1000;
 
         // Height Ratio settings
         public const double MIN_HEIGHT = 0.1;

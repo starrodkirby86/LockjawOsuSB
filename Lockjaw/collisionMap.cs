@@ -11,6 +11,8 @@ CLASS: CollisionMap
     TODO:
     X -- Load a bitmap file and return a 2D array based on RGB pixel color.
      -- Shift collision map a certain direction.
+     -- Correspond .osu hitcircles to collision map. (NAH LET'S DO THIS ANOTHER TIME)
+    X -- Create a class that stores a collection of strings and timepoints that can be loaded.
 */
 
 using System;
@@ -89,6 +91,22 @@ namespace Lockjaw
         {
             // Initialize the contents (Image stays empty though !!! caution)
             map = new bool[BeatmapConstants.SCREEN_WIDTH,BeatmapConstants.SCREEN_HEIGHT];
+        }
+    }
+
+    public class CollisionNode
+    {
+        // Used for a List to help fetch and receive data of collision maps
+        // Class members:
+        public string path;
+        public int startTime;
+        // Property
+        // Method
+        // Instance Constructor
+        public CollisionNode(string pathInp = "null", int startTimeInp = 0)
+        {
+            path = pathInp;
+            startTime = startTimeInp;
         }
     }
 }

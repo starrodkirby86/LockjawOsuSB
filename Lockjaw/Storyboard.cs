@@ -83,8 +83,14 @@ namespace Lockjaw
             // Region List editing...
             peppyOsu.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\rectOK.bmp", 19257);
             peppyOsu.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\rectOK2.bmp", 38457);
-            peppyOsu.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\dog.bmp", 48057);
+            peppyOsu.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\tryhard.bmp", 48057);
             peppyOsu.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\circleTest.bmp", 52857);
+
+            peppyOsu.addShift(62437, 4822, 4822, 0, true);
+            peppyOsu.addShift(67257, 4822, -4822, 0, true);
+           //peppyOsu.addShift(72057, 4822, 0, 4822, true);
+           //peppyOsu.addShift(76857, 4822, 4822, 4822, true);
+           //peppyOsu.addShift(81657, 4822, 4822, -4822, true);
 
             peppyOsu.makeItRain(400, (int)(BeatmapConstants.SONG_END_OFFSET / BeatmapConstants.RAINDROP_VELOCITY)) ;
 

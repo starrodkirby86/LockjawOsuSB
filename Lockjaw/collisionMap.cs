@@ -86,6 +86,120 @@ namespace Lockjaw
             }
         }
 
+        public void shiftMap(int xDist, int yDist, bool wrappingFlag)
+        {
+            // Shifts map a given distance in either the horizontal or vertical direction.
+            // Also has a screen wrapping parameter.
+            // Wrapping:
+            //      False - No wrapping, new existing content will be false by default
+            //      True - Contents on one edge will go to the other edge
+
+            // Make a copy of the map to keep the data integrity.
+            var dupeMap = map;
+
+            // Clear the original map.
+            clearMap();
+
+            // Begin duplicating.
+            for (int x1 = 0; x1 < sourceImage.Width; x1++)
+            {
+                for (int x2 = 0; x2 < sourceImage.Height; x2++)
+                {
+                    var finalX = x1 + xDist;
+                    var finalY = x2 + yDist;
+
+                    var overBoundFlag = (finalX) >= sourceImage.Width || (finalY) >= sourceImage.Height;
+                    var underBoundFlag = (finalX) < 0 || (finalY) < 0;
+
+                    // SHIFT checks for OOB
+                    if ( overBoundFlag && !underBoundFlag )
+                    {
+                        if(wrappingFlag)
+                        {
+                            // Which item exceeds that boundary?
+                            var xBound = (x1 + xDist) >= sourceImage.Width;
+                            var yBound = (x2 + yDist) >= sourceImage.Height;
+
+                            // Calculation...
+
+                            if(xBound)
+                            {
+                                finalX -= sourceImage.Width;
+                            }
+
+                            if(yBound)
+                            {
+                                finalY -= sourceImage.Height;
+                            }
+
+                            // And that's a wrap.
+                            map[finalX, finalY] = dupeMap[x1, x2];
+                        }
+
+                        // If it's here, then we can just ignore it since the map is already white anyway.
+                    }
+                    else if(!overBoundFlag && underBoundFlag )
+                    {
+                        if(wrappingFlag)
+                        {
+                                // Which item is underneath that boundary?
+                            var xBound = (x1 + xDist) < 0;
+                            var yBound = (x2 + yDist) < 0;
+
+                            // Calculation...
+
+                            if (xBound)
+                            {
+                                finalX += sourceImage.Width;
+                            }
+
+                            if (yBound)
+                            {
+                                finalY += sourceImage.Height;
+                            }
+
+                            // And that's a wrap.
+                            map[finalX, finalY] = dupeMap[x1, x2];
+                         }
+
+                        // No wrap means ignored...
+                    }
+                    else if(overBoundFlag && underBoundFlag)
+                    {
+                        // There are two scenarios that would make this case possible:
+                        // X is overachieving and Y is underachieving
+                        // X is underachieving and Y is overachieving
+                        // Therein, our conditions are going to pinpoint on that.
+
+                        if (wrappingFlag)
+                        {
+                            // Scenario 1 and 2 checks
+                            if (finalX >= sourceImage.Width)
+                            {
+                                finalX -= sourceImage.Width;
+                                finalY += sourceImage.Height;
+                            }
+                            else
+                            {
+                                finalX += sourceImage.Width;
+                                finalY -= sourceImage.Height;
+                            }
+
+                            // And that's a wrap.
+                            map[finalX, finalY] = dupeMap[x1, x2];
+                        }
+
+                        // No wrap means ignored...
+                    }
+                    else
+                    {
+                        // No OOB whatsoever.
+                        map[finalX, finalY] = dupeMap[x1, x2];
+                    }
+                 }
+            }
+        }
+
         // Instance Constructor
         public CollisionMap()
         {
@@ -107,6 +221,40 @@ namespace Lockjaw
         {
             path = pathInp;
             startTime = startTimeInp;
+        }
+    }
+
+    public class ShiftNode
+    {
+        // Used for a list to help control when and where the collision map should shift directions
+        // Just a note regarding tween: The divided values must yield to be whole numbers in the end
+
+        // Class members:
+
+        // Properties
+        public int startTime;
+        public int duration;
+        public int xInp;
+        public int yInp;
+        public bool wrappingFlag;
+
+        // These guys are for tweening purposes
+        public int tweenDistX;
+        public int tweenDistY;
+
+        // Property
+        // Method
+        // Instance Constructor
+        public ShiftNode(int startInp = 0, int durationInp = 0, int xInpInp = 0, int yInpInp = 0, bool wrappingFlagInp = false)
+        {
+            startTime = startInp;
+            duration = durationInp;
+            xInp = xInpInp;
+            yInp = yInpInp;
+            wrappingFlag = wrappingFlagInp;
+
+            tweenDistX = xInp / duration;
+            tweenDistY = yInp / duration;
         }
     }
 }

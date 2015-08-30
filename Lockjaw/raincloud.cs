@@ -12,6 +12,7 @@ CLASS: Raincloud
     X -- Implement a collision map controller.
       -- Implement a controller to update the collision map based off an .osu's compisition. (NAH LET'S DO THAT LATER)
     X -- Implement a controller that can change the collision map based off a list imported.
+      -- Implement a controller that can shift the collision map during a given time.
 */
 
 
@@ -33,6 +34,7 @@ namespace Lockjaw
         Raindrop[] cloud;
         public CollisionMap NoNoRegion;
         public List<CollisionNode> regionList;
+        public List<ShiftNode> shiftList;
 
         // Method
 
@@ -55,6 +57,12 @@ namespace Lockjaw
             regionList.Add(new CollisionNode(path, startTime));
         }
 
+        public void addShift(int startTime, int duration, int xInp, int yInp, bool wrappingFlag)
+        {
+            // Adds a shift into the shift list for the map to fetch.
+            shiftList.Add(new ShiftNode(startTime, duration, xInp, yInp, wrappingFlag));
+        }
+
         public void makeItRain(int startTime, int iterations)
         {
             // MAKE IT RAIN, BOYS
@@ -65,12 +73,16 @@ namespace Lockjaw
             // Check if the list is not empty. If it's not empty, check the head's time
             // to see if it needs to be updated. After a successful update, pop the head.
 
-            for (int x1 = 0; x1 < iterations; x1++)
+            int iterationCount = 0;
+            int timeElapsed = 0;
+
+            while (iterationCount < iterations)
             {
+                // Something to consider for the regionList
                 if (regionList.Count != 0)
                 {
                     // Now check if we're at the correct time to trigger this.
-                    if (startTime >= regionList[0].startTime)
+                    if (startTime + timeElapsed >= regionList[0].startTime)
                     {
                         // Update the map with the given path...
                         importMap(regionList[0].path);
@@ -79,18 +91,44 @@ namespace Lockjaw
                     }
                 }
 
-                // Calling all droplets to duty.
-                for (int x2 = 0; x2 < cloud.Length; x2++)
+                // Something to consider for the shifting
+                if (shiftList.Count != 0)
                 {
-                    cloud[x2].drop(startTime + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE),
-                        rng.Next(BeatmapConstants.SCREEN_LEFT, BeatmapConstants.SCREEN_RIGHT), 
-                        BeatmapConstants.SCREEN_TOP-BeatmapConstants.SCREEN_TOP_OFFSET,
-                        NoNoRegion,
-                        false);
+                    // Now check if we're at the correct time to trigger this
+                    if(startTime + timeElapsed >= shiftList[0].startTime)
+                    {
+                        // Update the map with the corresponding shift.
+                        // However, duration goes one-by-one so...
+                        NoNoRegion.shiftMap(shiftList[0].tweenDistX, shiftList[0].tweenDistY, shiftList[0].wrappingFlag);
+
+                        // Then update the duration counter.
+                        shiftList[0].duration -= 1;
+                        if(shiftList[0].duration == 0)
+                        {
+                            // And if it's empty, remove the head.
+                            shiftList.RemoveAt(0);
+                        }
+                    }
+                }
+
+                // Calling all droplets to duty.
+                // The raindrop will only drop if our given time is an iteration based off RAINDROP_VELOCITY
+                if (timeElapsed % BeatmapConstants.RAINDROP_VELOCITY == 0)
+                {
+                    for (int x2 = 0; x2 < cloud.Length; x2++)
+                    {
+                        cloud[x2].drop(startTime + timeElapsed + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE),
+                            rng.Next(BeatmapConstants.SCREEN_LEFT, BeatmapConstants.SCREEN_RIGHT),
+                            BeatmapConstants.SCREEN_TOP - BeatmapConstants.SCREEN_TOP_OFFSET,
+                            NoNoRegion,
+                            false);
+                    }
+                    // Increment the iteration count.
+                    iterationCount++;
                 }
 
                // Queue for the next wrap.
-                startTime += BeatmapConstants.RAINDROP_VELOCITY;
+               timeElapsed++;
             }
 
         }
@@ -122,6 +160,7 @@ namespace Lockjaw
             cloud = new Raindrop[BeatmapConstants.MAX_RAINDROPS];
             NoNoRegion = new CollisionMap();
             regionList = new List<CollisionNode>();
+            shiftList = new List<ShiftNode>();
             clearMap();
 
             for(int x = 0; x < cloud.Length; x++)

@@ -95,7 +95,8 @@ namespace Lockjaw
             //      True - Contents on one edge will go to the other edge
 
             // Make a copy of the map to keep the data integrity.
-            var dupeMap = map;
+            var dupeMap = new bool[sourceImage.Width,sourceImage.Height];
+            Array.Copy(map, dupeMap, map.Length);
 
             // Clear the original map.
             clearMap();
@@ -108,95 +109,33 @@ namespace Lockjaw
                     var finalX = x1 + xDist;
                     var finalY = x2 + yDist;
 
-                    var overBoundFlag = (finalX) >= sourceImage.Width || (finalY) >= sourceImage.Height;
-                    var underBoundFlag = (finalX) < 0 || (finalY) < 0;
+                    bool xOverBoundFlag = finalX >= sourceImage.Width;
+                    bool yOverBoundFlag = finalY >= sourceImage.Height;
+                    bool xUnderBoundFlag = finalX < 0;
+                    bool yUnderBoundFlag = finalY < 0;
 
-                    // SHIFT checks for OOB
-                    if ( overBoundFlag && !underBoundFlag )
+                    if (xOverBoundFlag || yOverBoundFlag || xUnderBoundFlag || yUnderBoundFlag)
                     {
-                        if(wrappingFlag)
-                        {
-                            // Which item exceeds that boundary?
-                            var xBound = (x1 + xDist) >= sourceImage.Width;
-                            var yBound = (x2 + yDist) >= sourceImage.Height;
-
-                            // Calculation...
-
-                            if(xBound)
-                            {
-                                finalX -= sourceImage.Width;
-                            }
-
-                            if(yBound)
-                            {
-                                finalY -= sourceImage.Height;
-                            }
-
-                            // And that's a wrap.
-                            map[finalX, finalY] = dupeMap[x1, x2];
-                        }
-
-                        // If it's here, then we can just ignore it since the map is already white anyway.
-                    }
-                    else if(!overBoundFlag && underBoundFlag )
-                    {
-                        if(wrappingFlag)
-                        {
-                                // Which item is underneath that boundary?
-                            var xBound = (x1 + xDist) < 0;
-                            var yBound = (x2 + yDist) < 0;
-
-                            // Calculation...
-
-                            if (xBound)
-                            {
-                                finalX += sourceImage.Width;
-                            }
-
-                            if (yBound)
-                            {
-                                finalY += sourceImage.Height;
-                            }
-
-                            // And that's a wrap.
-                            map[finalX, finalY] = dupeMap[x1, x2];
-                         }
-
-                        // No wrap means ignored...
-                    }
-                    else if(overBoundFlag && underBoundFlag)
-                    {
-                        // There are two scenarios that would make this case possible:
-                        // X is overachieving and Y is underachieving
-                        // X is underachieving and Y is overachieving
-                        // Therein, our conditions are going to pinpoint on that.
-
                         if (wrappingFlag)
-                        {
-                            // Scenario 1 and 2 checks
-                            if (finalX >= sourceImage.Width)
                             {
-                                finalX -= sourceImage.Width;
-                                finalY += sourceImage.Height;
-                            }
-                            else
-                            {
-                                finalX += sourceImage.Width;
-                                finalY -= sourceImage.Height;
-                            }
+                                // Update finalX finalY here
+                                if (xOverBoundFlag)
+                                    finalX -= sourceImage.Width;
+                                else if (xUnderBoundFlag)
+                                    finalX += sourceImage.Width;
+                                if (yOverBoundFlag)
+                                    finalY -= sourceImage.Height;
+                                else if (yUnderBoundFlag)
+                                    finalY += sourceImage.Height;
 
-                            // And that's a wrap.
-                            map[finalX, finalY] = dupeMap[x1, x2];
-                        }
-
-                        // No wrap means ignored...
+                                // Then update the map.
+                                map[finalX, finalY] = dupeMap[x1, x2];
+                            }
+                        // If wrappingFlag is false, we don't need to duplicate.
                     }
                     else
-                    {
-                        // No OOB whatsoever.
                         map[finalX, finalY] = dupeMap[x1, x2];
-                    }
-                 }
+                }
             }
         }
 

@@ -92,6 +92,7 @@ namespace Lockjaw
                 }
 
                 // Something to consider for the shifting
+                // We can only update in RAINDROP_VELOCITY snapshots
                 if (shiftList.Count != 0)
                 {
                     // Now check if we're at the correct time to trigger this
@@ -102,8 +103,10 @@ namespace Lockjaw
                         NoNoRegion.shiftMap(shiftList[0].tweenDistX, shiftList[0].tweenDistY, shiftList[0].wrappingFlag);
 
                         // Then update the duration counter.
+                        // The duration counter works as iterations of RAINDROP_VELOCITY
                         shiftList[0].duration -= 1;
-                        if(shiftList[0].duration == 0)
+                        shiftList[0].startTime += BeatmapConstants.RAINDROP_VELOCITY;
+                        if(shiftList[0].duration <= 0)
                         {
                             // And if it's empty, remove the head.
                             shiftList.RemoveAt(0);

@@ -48,7 +48,7 @@ namespace Lockjaw
 
             // Make some temporary comparison variables to make life easier.
             Color sourcePixelColor;
-
+            
 
             // GetPixel mania!
             for (int x1 = 0; x1 < sourceImage.Width; x1++)
@@ -121,7 +121,7 @@ namespace Lockjaw
                         if(wrappingFlag)
                         {
                             finalX += sourceImage.Width * (-1 * Convert.ToInt32(xOverBoundFlag) + Convert.ToInt32(xUnderBoundFlag));
-                            finalY += sourceImage.Width * (-1 * Convert.ToInt32(yOverBoundFlag) + Convert.ToInt32(yUnderBoundFlag));
+                            finalY += sourceImage.Height * (-1 * Convert.ToInt32(yOverBoundFlag) + Convert.ToInt32(yUnderBoundFlag));
 
                             // Then update the map.
                             map[finalX, finalY] = dupeMap[x1, x2];

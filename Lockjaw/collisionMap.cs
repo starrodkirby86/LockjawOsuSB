@@ -106,35 +106,37 @@ namespace Lockjaw
             {
                 for (int x2 = 0; x2 < sourceImage.Height; x2++)
                 {
-                    var finalX = x1 + xDist;
-                    var finalY = x2 + yDist;
-
-                    bool xOverBoundFlag = finalX >= sourceImage.Width;
-                    bool yOverBoundFlag = finalY >= sourceImage.Height;
-                    bool xUnderBoundFlag = finalX < 0;
-                    bool yUnderBoundFlag = finalY < 0;
-
-                    if (xOverBoundFlag || yOverBoundFlag || xUnderBoundFlag || yUnderBoundFlag)
+                    // Did we hit a true spot? True spots must be shifted.
+                    if(dupeMap[x1,x2])
                     {
-                        if (wrappingFlag)
-                            {
-                                // Update finalX finalY here
-                                if (xOverBoundFlag)
-                                    finalX -= sourceImage.Width;
-                                else if (xUnderBoundFlag)
-                                    finalX += sourceImage.Width;
-                                if (yOverBoundFlag)
-                                    finalY -= sourceImage.Height;
-                                else if (yUnderBoundFlag)
-                                    finalY += sourceImage.Height;
+                        //  XY SHIFT
+                        var finalX = x1 + xDist;
+                        var finalY = x2 + yDist;
 
-                                // Then update the map.
-                                map[finalX, finalY] = dupeMap[x1, x2];
-                            }
-                        // If wrappingFlag is false, we don't need to duplicate.
+                        bool xOverBoundFlag = finalX >= sourceImage.Width;
+                        bool yOverBoundFlag = finalY >= sourceImage.Height;
+                        bool xUnderBoundFlag = finalX < 0;
+                        bool yUnderBoundFlag = finalY < 0;
+
+                        if(wrappingFlag)
+                        {
+                            if (xOverBoundFlag)
+                                finalX -= sourceImage.Width;
+                            else if (xUnderBoundFlag)
+                                finalX += sourceImage.Width;
+                            if (yOverBoundFlag)
+                                finalY -= sourceImage.Height;
+                            else if (yUnderBoundFlag)
+                                finalY += sourceImage.Height;
+
+                            // Then update the map.
+                            map[finalX, finalY] = dupeMap[x1, x2];
+                        }
+                        else if( !(xOverBoundFlag || yOverBoundFlag || xUnderBoundFlag || yUnderBoundFlag) )
+                            // When wrappingFlag is off, we only need to worry about the values being in bounds
+                            map[finalX, finalY] = dupeMap[x1, x2];
+
                     }
-                    else
-                        map[finalX, finalY] = dupeMap[x1, x2];
                 }
             }
         }

@@ -86,7 +86,7 @@ namespace Lockjaw
             peppyOsu.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\circleTest.bmp", 48057);
             peppyOsu.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\tryHard.bmp", 52857);
 
-            peppyOsu.addShift(62437, 1, 450, 0, true);
+            peppyOsu.addShift(62437, 4822, 4822, 0, true);
             //peppyOsu.addShift(62437, 4822, 600, 0, true);
             //peppyOsu.addShift(62437, 4822, 4822, 0, true);
             //peppyOsu.addShift(67257, 4822, -4822, 0, true);

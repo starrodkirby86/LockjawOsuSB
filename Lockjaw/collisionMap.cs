@@ -120,14 +120,8 @@ namespace Lockjaw
 
                         if(wrappingFlag)
                         {
-                            if (xOverBoundFlag)
-                                finalX -= sourceImage.Width;
-                            else if (xUnderBoundFlag)
-                                finalX += sourceImage.Width;
-                            if (yOverBoundFlag)
-                                finalY -= sourceImage.Height;
-                            else if (yUnderBoundFlag)
-                                finalY += sourceImage.Height;
+                            finalX += sourceImage.Width * (-1 * Convert.ToInt32(xOverBoundFlag) + Convert.ToInt32(xUnderBoundFlag));
+                            finalY += sourceImage.Width * (-1 * Convert.ToInt32(yOverBoundFlag) + Convert.ToInt32(yUnderBoundFlag));
 
                             // Then update the map.
                             map[finalX, finalY] = dupeMap[x1, x2];

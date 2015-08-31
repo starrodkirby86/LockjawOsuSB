@@ -48,7 +48,7 @@ namespace Lockjaw
 
             // Make some temporary comparison variables to make life easier.
             Color sourcePixelColor;
-
+            
 
             // GetPixel mania!
             for (int x1 = 0; x1 < sourceImage.Width; x1++)
@@ -86,6 +86,55 @@ namespace Lockjaw
             }
         }
 
+        public void shiftMap(int xDist, int yDist, bool wrappingFlag)
+        {
+            // Shifts map a given distance in either the horizontal or vertical direction.
+            // Also has a screen wrapping parameter.
+            // Wrapping:
+            //      False - No wrapping, new existing content will be false by default
+            //      True - Contents on one edge will go to the other edge
+
+            // Make a copy of the map to keep the data integrity.
+            var dupeMap = new bool[sourceImage.Width,sourceImage.Height];
+            Array.Copy(map, dupeMap, map.Length);
+
+            // Clear the original map.
+            clearMap();
+
+            // Begin duplicating.
+            for (int x1 = 0; x1 < sourceImage.Width; x1++)
+            {
+                for (int x2 = 0; x2 < sourceImage.Height; x2++)
+                {
+                    // Did we hit a true spot? True spots must be shifted.
+                    if(dupeMap[x1,x2])
+                    {
+                        //  XY SHIFT
+                        var finalX = x1 + xDist;
+                        var finalY = x2 + yDist;
+
+                        bool xOverBoundFlag = finalX >= sourceImage.Width;
+                        bool yOverBoundFlag = finalY >= sourceImage.Height;
+                        bool xUnderBoundFlag = finalX < 0;
+                        bool yUnderBoundFlag = finalY < 0;
+
+                        if(wrappingFlag)
+                        {
+                            finalX += sourceImage.Width * (-1 * Convert.ToInt32(xOverBoundFlag) + Convert.ToInt32(xUnderBoundFlag));
+                            finalY += sourceImage.Height * (-1 * Convert.ToInt32(yOverBoundFlag) + Convert.ToInt32(yUnderBoundFlag));
+
+                            // Then update the map.
+                            map[finalX, finalY] = dupeMap[x1, x2];
+                        }
+                        else if( !(xOverBoundFlag || yOverBoundFlag || xUnderBoundFlag || yUnderBoundFlag) )
+                            // When wrappingFlag is off, we only need to worry about the values being in bounds
+                            map[finalX, finalY] = dupeMap[x1, x2];
+
+                    }
+                }
+            }
+        }
+
         // Instance Constructor
         public CollisionMap()
         {
@@ -107,6 +156,40 @@ namespace Lockjaw
         {
             path = pathInp;
             startTime = startTimeInp;
+        }
+    }
+
+    public class ShiftNode
+    {
+        // Used for a list to help control when and where the collision map should shift directions
+        // Just a note regarding tween: The divided values must yield to be whole numbers in the end
+
+        // Class members:
+
+        // Properties
+        public int startTime;
+        public int duration;
+        public int xInp;
+        public int yInp;
+        public bool wrappingFlag;
+
+        // These guys are for tweening purposes
+        public int tweenDistX;
+        public int tweenDistY;
+
+        // Property
+        // Method
+        // Instance Constructor
+        public ShiftNode(int startInp = 0, int durationInp = 0, int xInpInp = 0, int yInpInp = 0, bool wrappingFlagInp = false)
+        {
+            startTime = startInp;
+            duration = durationInp;
+            xInp = xInpInp;
+            yInp = yInpInp;
+            wrappingFlag = wrappingFlagInp;
+
+            tweenDistX = xInp / duration;
+            tweenDistY = yInp / duration;
         }
     }
 }

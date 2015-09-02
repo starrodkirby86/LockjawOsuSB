@@ -12,7 +12,8 @@ CLASS: Raincloud
     X -- Implement a collision map controller.
       -- Implement a controller to update the collision map based off an .osu's compisition. (NAH LET'S DO THAT LATER)
     X -- Implement a controller that can change the collision map based off a list imported.
-      -- Implement a controller that can shift the collision map during a given time.
+    X -- Implement a controller that can shift the collision map during a given time.
+    X -- Implement circular rain.
 */
 
 
@@ -61,6 +62,11 @@ namespace Lockjaw
         {
             // Adds a shift into the shift list for the map to fetch.
             shiftList.Add(new ShiftNode(startTime, duration, xInp, yInp, wrappingFlag));
+        }
+
+        public System.Drawing.Point Polar2Cartesian(double radius, double radian)
+        {
+            return new System.Drawing.Point((int)(radius * Math.Cos(radian)), (int)(radius * Math.Sin(radian)));
         }
 
         public void makeItRain(int startTime, int iterations)
@@ -145,13 +151,71 @@ namespace Lockjaw
             // Begin the rotation
             for (int x2 = 0; x2 < cloud.Length; x2++)
             {
-                cloud[x2].rotate(startTime, degInput);
+                cloud[x2].rotate(startTime, degInput, false);
             }
 
             // End the rotation
             for (int x2 = 0; x2 < cloud.Length; x2++)
             {
-                cloud[x2].rotate(endTime, 0);
+                cloud[x2].rotate(endTime, 0, false);
+            }
+        }
+
+        public void circularRain(int startTime, int iterations, double radius)
+        {
+            // Creates a special effect utilizing the raindrops to make a circular surrounding.
+            // The raindrops go towards the center to create a focus on the center of the screen.
+            // NOTE: Collision maps are ignored.
+            int iterationCount = 0;
+            int timeElapsed = 0;
+
+            // Remove the current collision map.
+            clearMap();
+
+            // Generate a list of coordinates for the raindrops to behave by based on
+            // trigonometry and the angle of a circle.
+            // What we need:
+            // > a collection of tuples for X and Y values
+
+            while (iterationCount < iterations)
+            {
+                // Calling all droplets to duty.
+                // The raindrop will only drop if our given time is an iteration based off RAINDROP_VELOCITY
+                if (timeElapsed % BeatmapConstants.RAINDROP_VELOCITY == 0)
+                {
+                    double angleCounter = 0;
+                    for (int x2 = 0; x2 < cloud.Length; x2++)
+                    {
+                        // Generate Values for raindrop movement
+                        var dropletStartTime = startTime + timeElapsed + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE);
+                        var outCirclePoint = Polar2Cartesian(BeatmapConstants.SCREEN_WIDTH / 2, angleCounter);
+                        var inCirclePoint = Polar2Cartesian(radius, angleCounter);
+
+                        // Offset to center screen
+                        outCirclePoint.X += (int)(BeatmapConstants.PLAYFIELD_WIDTH / 1.58);
+                        inCirclePoint.X += (int)(BeatmapConstants.PLAYFIELD_WIDTH / 1.58);
+                        outCirclePoint.Y += (int)(BeatmapConstants.SCREEN_HEIGHT / 1.8);
+                        inCirclePoint.Y += (int)(BeatmapConstants.SCREEN_HEIGHT / 1.8);
+
+                        cloud[x2].rotate(dropletStartTime, angleCounter, true);
+
+                        cloud[x2].droplet.move(0,
+                            dropletStartTime,
+                            dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY,
+                            outCirclePoint.X,
+                            outCirclePoint.Y,
+                            inCirclePoint.X,
+                            inCirclePoint.Y
+                            );
+
+                        angleCounter += Math.PI / BeatmapConstants.MAX_RAINDROPS * 2;
+                    }
+                    // Increment the iteration count.
+                    iterationCount++;
+                }
+
+                // Queue for the next wrap.
+                timeElapsed++;
             }
         }
 

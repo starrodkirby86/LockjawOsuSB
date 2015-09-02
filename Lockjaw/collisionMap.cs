@@ -10,8 +10,8 @@ CLASS: CollisionMap
 
     TODO:
     X -- Load a bitmap file and return a 2D array based on RGB pixel color.
-     -- Shift collision map a certain direction.
-     -- Correspond .osu hitcircles to collision map. (NAH LET'S DO THIS ANOTHER TIME)
+    X -- Shift collision map a certain direction.
+      -- Correspond .osu hitcircles to collision map. (NAH LET'S DO THIS ANOTHER TIME)
     X -- Create a class that stores a collection of strings and timepoints that can be loaded.
 */
 

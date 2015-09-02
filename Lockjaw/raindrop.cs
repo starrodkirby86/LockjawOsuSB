@@ -67,18 +67,23 @@ namespace Lockjaw
             droplet.fade(0, t0, t0, fadeSetting, fadeSetting);
             droplet.scaleVec(0, t0, t0, 1, heightRatio, 1, heightRatio);
         }
+        
 
-        public void rotate(int t0, int degInput)
+        public void rotate(int t0, double rotInput, bool RadFlag)
         {
             // Rotates the raindrop particle to the desired angle.
+            // Boolean determines whether the second parameter is degrees or radians.
             // The angle is converted to radians, then the angleOffset is calculated.
             // Finally, the raindrop gets updated.
 
+            double radInput = rotInput;
+
             // Conversion!
-            double radInput = Math.PI * degInput / 180.0;
+            if(!RadFlag)
+                radInput = Math.PI * rotInput / 180.0;
 
             // Calculate angleOffset
-            angleOffset = BeatmapConstants.MAX_ROTATION_DISTANCE * (degInput / 90);
+            angleOffset = BeatmapConstants.MAX_ROTATION_DISTANCE * ((int)rotInput / 90);
 
             // Now the raindrop will rotate
             droplet.rotate(0, t0, t0 + BeatmapConstants.RAINDROP_VELOCITY * 2, currentAngle, radInput);

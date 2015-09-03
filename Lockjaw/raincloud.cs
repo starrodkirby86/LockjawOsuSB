@@ -10,10 +10,11 @@ CLASS: Raincloud
     X -- Current implementation takes too much space/resources, make it more efficient but still truly random
     X -- Implement a rotation controller.
     X -- Implement a collision map controller.
-      -- Implement a controller to update the collision map based off an .osu's compisition. (NAH LET'S DO THAT LATER)
+      -- Implement a controller to update the collision map based off an .osu's composition. (NAH LET'S DO THAT LATER)
     X -- Implement a controller that can change the collision map based off a list imported.
     X -- Implement a controller that can shift the collision map during a given time.
     X -- Implement circular rain.
+      -- Implement rain that follows an Archimedes spiral.
 */
 
 
@@ -172,11 +173,6 @@ namespace Lockjaw
             // Remove the current collision map.
             clearMap();
 
-            // Generate a list of coordinates for the raindrops to behave by based on
-            // trigonometry and the angle of a circle.
-            // What we need:
-            // > a collection of tuples for X and Y values
-
             while (iterationCount < iterations)
             {
                 // Calling all droplets to duty.
@@ -192,10 +188,10 @@ namespace Lockjaw
                         var inCirclePoint = Polar2Cartesian(radius, angleCounter);
 
                         // Offset to center screen
-                        outCirclePoint.X += (int)(BeatmapConstants.PLAYFIELD_WIDTH / 1.58);
-                        inCirclePoint.X += (int)(BeatmapConstants.PLAYFIELD_WIDTH / 1.58);
-                        outCirclePoint.Y += (int)(BeatmapConstants.SCREEN_HEIGHT / 1.8);
-                        inCirclePoint.Y += (int)(BeatmapConstants.SCREEN_HEIGHT / 1.8);
+                        outCirclePoint.X += (int)(BeatmapConstants.PLAYFIELD_WIDTH / 1.6);
+                        inCirclePoint.X += (int)(BeatmapConstants.PLAYFIELD_WIDTH / 1.6);
+                        outCirclePoint.Y += (int)(BeatmapConstants.SCREEN_HEIGHT / 1.9);
+                        inCirclePoint.Y += (int)(BeatmapConstants.SCREEN_HEIGHT / 1.9);
 
                         cloud[x2].rotate(dropletStartTime, angleCounter, true);
 
@@ -217,6 +213,63 @@ namespace Lockjaw
                 // Queue for the next wrap.
                 timeElapsed++;
             }
+        }
+
+        public void spiralRain(int startTime, int iterations, int spiralMax, int spiralRate)
+        {
+            // Raincloud controller that forces a raincloud to move in an
+            // Archimedes spiral. spiralMax controls how far it should head out,
+            // while iterations controls how many times the spiral should execute.
+            int iterationCount = 0;
+            int timeElapsed = 0;
+
+            // Remove the current collision map.
+            clearMap();
+
+            while (iterationCount < iterations)
+            {
+                // Calling all droplets to duty.
+                // The raindrop will only drop if our given time is an iteration based off RAINDROP_VELOCITY
+                if (timeElapsed % BeatmapConstants.RAINDROP_VELOCITY == 0)
+                {
+                    int delayCounter = 0;
+                    double angleCounter = 0;
+                    for (int x2 = 0; x2 < cloud.Length; x2++)
+                    {
+                        var dropletStartTime = startTime + timeElapsed + delayCounter + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE);
+                        var dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY * 2;
+
+                        for (int x3 = spiralRate; x3 < spiralMax; x3 += spiralRate)
+                        {
+                            // Generate Values for raindrop movement
+
+                            // Movement plan:
+                            // This raindrop has a pathway until spiralMax.
+                            // In
+                            cloud[x2].rotate(dropletStartTime, angleCounter, true);
+                            cloud[x2].droplet.moveX(15, dropletStartTime, dropletStartTimeNext, -x3, x3);
+                            cloud[x2].droplet.moveY(15, dropletStartTime, dropletStartTimeNext, -x3, x3);
+                            // Out
+                            dropletStartTime = dropletStartTimeNext;
+                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY * 2;
+                            cloud[x2].droplet.moveX(16, dropletStartTime, dropletStartTimeNext, x3, -x3);
+                            cloud[x2].droplet.moveY(16, dropletStartTime, dropletStartTimeNext, x3, -x3);
+                            dropletStartTime = dropletStartTimeNext;
+                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY * 2;
+
+                            angleCounter += Math.PI / spiralMax / spiralRate;
+                        }
+
+                        delayCounter += 10;
+                    }
+                    // Increment the iteration count.
+                    iterationCount++;
+                }
+
+                // Queue for the next wrap.
+                timeElapsed++;
+            }
+
         }
 
         // Instance Constructor

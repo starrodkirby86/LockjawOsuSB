@@ -94,14 +94,17 @@ namespace Lockjaw
             peppyOsu.addShift(76857, 16, 4822, 4822, true);
             peppyOsu.addShift(81657, 16, 4822, -4822, true);
 
-            peppyOsu.makeItRain(400, (int)(BeatmapConstants.SONG_END_OFFSET / 1.5 / BeatmapConstants.RAINDROP_VELOCITY)) ;
-            peppyOsu.circularRain((int)(BeatmapConstants.SONG_END_OFFSET / 1.5), (int)((BeatmapConstants.SONG_END_OFFSET - BeatmapConstants.SONG_END_OFFSET / 1.5) / BeatmapConstants.RAINDROP_VELOCITY), 128);
+            peppyOsu.makeItRain(400, (int)(86457 / BeatmapConstants.RAINDROP_VELOCITY));
+            peppyOsu.circularRain(86457,(int)( (96057-86457) / BeatmapConstants.RAINDROP_VELOCITY ), 128);
+            peppyOsu.spiralRain(96057, (int)((BeatmapConstants.SONG_END_OFFSET - 96057)/ BeatmapConstants.RAINDROP_VELOCITY), 640, 48);
 
             peppyOsu.createWind(0, 0, 0);
 
             peppyOsu.createWind(62457, 70857, 15);
 
             peppyOsu.createWind(72057, 80457, -15);
+
+            peppyOsu.createWind(96056, 96056, 0);
 
         }
     }

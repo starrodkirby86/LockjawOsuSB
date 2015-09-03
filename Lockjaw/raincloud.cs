@@ -247,13 +247,13 @@ namespace Lockjaw
                             // This raindrop has a pathway until spiralMax.
                             // In
                             cloud[x2].rotate(dropletStartTime, angleCounter, true);
-                            cloud[x2].droplet.moveX(15, dropletStartTime, dropletStartTimeNext, -x3, x3);
-                            cloud[x2].droplet.moveY(15, dropletStartTime, dropletStartTimeNext, -x3, x3);
+                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, -x3, x3);
+                            cloud[x2].droplet.moveY(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, -x3, x3);
                             // Out
                             dropletStartTime = dropletStartTimeNext;
                             dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY * 2;
-                            cloud[x2].droplet.moveX(16, dropletStartTime, dropletStartTimeNext, x3, -x3);
-                            cloud[x2].droplet.moveY(16, dropletStartTime, dropletStartTimeNext, x3, -x3);
+                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.OutSine, dropletStartTime, dropletStartTimeNext, x3, -x3);
+                            cloud[x2].droplet.moveY(SGL.Storyboard.Commands.EasingTypes.OutSine, dropletStartTime, dropletStartTimeNext, x3, -x3);
                             dropletStartTime = dropletStartTimeNext;
                             dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY * 2;
 

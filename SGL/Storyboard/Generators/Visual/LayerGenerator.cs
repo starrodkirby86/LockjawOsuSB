@@ -14,6 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using SGL.Library.Classes;
+using SGL.Storyboard.Commands;
 using System;
 using System.Collections.Generic;
 
@@ -42,7 +43,7 @@ namespace SGL.Storyboard.Generators.Visual
             return null;
         }
 
-		public override void move(int easing, int startTime, int endTime, double startX, double startY, double endX, double endY)
+		public override void move(EasingTypes easing, int startTime, int endTime, double startX, double startY, double endX, double endY)
         {
             foreach (AbstractVisualGenerator obj in LayerGenerators)
             {
@@ -51,7 +52,7 @@ namespace SGL.Storyboard.Generators.Visual
         }
 
 
-        public override void scale(int easing, int startTime, int endTime, double startScale, double endScale)
+        public override void scale(EasingTypes easing, int startTime, int endTime, double startScale, double endScale)
         {
             foreach (AbstractVisualGenerator obj in LayerGenerators)
             {
@@ -59,7 +60,7 @@ namespace SGL.Storyboard.Generators.Visual
             }
         }
 
-        public override void fade(int easing, int startTime, int endTime, double startOpacity, double endOpacity)
+        public override void fade(EasingTypes easing, int startTime, int endTime, double startOpacity, double endOpacity)
         {
             foreach (AbstractVisualGenerator obj in LayerGenerators)
             {
@@ -67,7 +68,7 @@ namespace SGL.Storyboard.Generators.Visual
             }
         }
 
-        public override void color(int easing, int startTime, int endTime, int startRed, int startGreen, int startBlue,
+        public override void color(EasingTypes easing, int startTime, int endTime, int startRed, int startGreen, int startBlue,
                           int endRed, int endGreen, int endBlue)
         {
             foreach (AbstractVisualGenerator obj in LayerGenerators)

@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using SGL.Elements;
+using SGL.Storyboard.Commands;
 using SGL.Storyboard.Generators.Visual;
 
 namespace SGL.Library.Classes
@@ -56,7 +57,7 @@ namespace SGL.Library.Classes
                     else if (Value.TypeCompare(param, ValType.Integer, ValType.Integer, ValType.Integer, ValType.Double,
                                                ValType.Double))
                     {
-                        visualObject.fade(param[0].IntValue, param[1].IntValue, param[2].IntValue,
+                        visualObject.fade((EasingTypes)param[0].IntValue, param[1].IntValue, param[2].IntValue,
                                           param[3].DoubleValue, param[4].DoubleValue);
                         return Value.VOID;
                     }
@@ -83,7 +84,7 @@ namespace SGL.Library.Classes
                     else if (Value.TypeCompare(param, ValType.Integer, ValType.Integer, ValType.Integer, ValType.Double,
                                                ValType.Double))
                     {
-                        visualObject.scale(param[0].IntValue, param[1].IntValue, param[2].IntValue,
+                        visualObject.scale((EasingTypes)param[0].IntValue, param[1].IntValue, param[2].IntValue,
                                            param[3].DoubleValue, param[4].DoubleValue);
                         return Value.VOID;
                     }
@@ -110,7 +111,7 @@ namespace SGL.Library.Classes
                     else if (Value.TypeCompare(param, ValType.Integer, ValType.Integer, ValType.Integer, ValType.Double,
                                                ValType.Double))
                     {
-                        visualObject.rotate(param[0].IntValue, param[1].IntValue, param[2].IntValue,
+                        visualObject.rotate((EasingTypes)param[0].IntValue, param[1].IntValue, param[2].IntValue,
                                             param[3].DoubleValue, param[4].DoubleValue);
                         return Value.VOID;
                     }
@@ -137,7 +138,7 @@ namespace SGL.Library.Classes
                     else if (Value.TypeCompare(param, ValType.Integer, ValType.Integer, ValType.Integer, ValType.Double,
                                                ValType.Double))
                     {
-                        visualObject.moveX(param[0].IntValue, param[1].IntValue, param[2].IntValue,
+                        visualObject.moveX((EasingTypes)param[0].IntValue, param[1].IntValue, param[2].IntValue,
                                            param[3].DoubleValue, param[4].DoubleValue);
                         return Value.VOID;
                     }
@@ -164,7 +165,7 @@ namespace SGL.Library.Classes
                     else if (Value.TypeCompare(param, ValType.Integer, ValType.Integer, ValType.Integer, ValType.Double,
                                                ValType.Double))
                     {
-                        visualObject.moveY(param[0].IntValue, param[1].IntValue, param[2].IntValue,
+                        visualObject.moveY((EasingTypes)param[0].IntValue, param[1].IntValue, param[2].IntValue,
                                            param[3].DoubleValue, param[4].DoubleValue);
                         return Value.VOID;
                     }
@@ -192,7 +193,7 @@ namespace SGL.Library.Classes
                     else if (Value.TypeCompare(param, ValType.Integer, ValType.Integer, ValType.Integer,
                                                ValType.Integer, ValType.Integer, ValType.Integer, ValType.Integer))
                     {
-                        visualObject.move(param[0].IntValue, param[1].IntValue, param[2].IntValue,
+                        visualObject.move((EasingTypes)param[0].IntValue, param[1].IntValue, param[2].IntValue,
                                           param[3].IntValue, param[4].IntValue, param[5].IntValue,
                                           param[6].IntValue);
                         return Value.VOID;
@@ -221,7 +222,7 @@ namespace SGL.Library.Classes
                     else if (Value.TypeCompare(param, ValType.Integer, ValType.Integer, ValType.Integer,
                                                ValType.Double, ValType.Double, ValType.Double, ValType.Double))
                     {
-                        visualObject.scaleVec(param[0].IntValue, param[1].IntValue, param[2].IntValue,
+                        visualObject.scaleVec((EasingTypes)param[0].IntValue, param[1].IntValue, param[2].IntValue,
                                               param[3].DoubleValue, param[4].DoubleValue, param[5].DoubleValue,
                                               param[6].DoubleValue);
                         return Value.VOID;
@@ -254,7 +255,7 @@ namespace SGL.Library.Classes
                                                ValType.Integer, ValType.Integer, ValType.Integer, ValType.Integer,
                                                ValType.Integer, ValType.Integer))
                     {
-                        visualObject.color(param[0].IntValue, param[1].IntValue, param[2].IntValue,
+                        visualObject.color((EasingTypes)param[0].IntValue, param[1].IntValue, param[2].IntValue,
                                            param[3].IntValue, param[4].IntValue, param[5].IntValue,
                                            param[6].IntValue, param[7].IntValue, param[8].IntValue);
                         return Value.VOID;
@@ -281,7 +282,7 @@ namespace SGL.Library.Classes
 					} else if (Value.TypeCompare(param, ValType.Integer, ValType.Integer, ValType.Integer,
 												 ValType.Double, ValType.Double, ValType.Double, ValType.Double,
 												 ValType.Double, ValType.Double)) {
-						visualObject.colorHsb(param[0].IntValue, param[1].IntValue, param[2].IntValue,
+						visualObject.colorHsb((EasingTypes)param[0].IntValue, param[1].IntValue, param[2].IntValue,
 										   param[3].DoubleValue, param[4].DoubleValue, param[5].DoubleValue,
 										   param[6].DoubleValue, param[7].DoubleValue, param[8].DoubleValue);
 						return Value.VOID;

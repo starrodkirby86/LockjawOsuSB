@@ -23,7 +23,7 @@ namespace SGL.Storyboard.Commands
 	public class Animation : Command
     {
         private readonly AnimationType animationType;
-        private readonly int easing;
+        private readonly EasingTypes easing;
         private readonly double[] endParams;
         private readonly int endTime;
         private readonly double[] startParams;
@@ -36,7 +36,7 @@ namespace SGL.Storyboard.Commands
         /// <param name="endTime"></param>
         /// <param name="startParams"></param>
         /// <param name="endParams"></param>
-        public Animation(AnimationType animationType, int easing, int startTime, int endTime, double[] startParams,
+        public Animation(AnimationType animationType, EasingTypes easing, int startTime, int endTime, double[] startParams,
                          double[] endParams) : base(startTime)
         {
             this.animationType = animationType;
@@ -70,46 +70,46 @@ namespace SGL.Storyboard.Commands
             switch (animationType)
             {
                 case AnimationType.Move:
-                    storyboardCode.Append(" M," + easing + "," + startTime + "," + endTime + "," +
+                    storyboardCode.Append(" M," + (int)easing + "," + startTime + "," + endTime + "," +
                                           ((int) startParams[0]).ToString(CultureInfo.InvariantCulture) + "," +
                                           ((int) startParams[1]).ToString(CultureInfo.InvariantCulture) + "," +
                                           ((int) endParams[0]).ToString(CultureInfo.InvariantCulture) + "," +
                                           ((int) endParams[1]).ToString(CultureInfo.InvariantCulture));
                     break;
                 case AnimationType.MoveX:
-                    storyboardCode.Append(" MX," + easing + "," + startTime + "," + endTime + "," +
+                    storyboardCode.Append(" MX," + (int)easing + "," + startTime + "," + endTime + "," +
                                           ((int) startParams[0]).ToString(CultureInfo.InvariantCulture) + "," +
                                           ((int) endParams[0]).ToString(CultureInfo.InvariantCulture));
                     break;
                 case AnimationType.MoveY:
-                    storyboardCode.Append(" MY," + easing + "," + startTime + "," + endTime + "," +
+                    storyboardCode.Append(" MY," + (int)easing + "," + startTime + "," + endTime + "," +
                                           ((int) startParams[0]).ToString(CultureInfo.InvariantCulture) + "," +
                                           ((int) endParams[0]).ToString(CultureInfo.InvariantCulture));
                     break;
                 case AnimationType.Fade:
-                    storyboardCode.Append(" F," + easing + "," + startTime + "," + endTime + "," +
+                    storyboardCode.Append(" F," + (int)easing + "," + startTime + "," + endTime + "," +
                                           startParams[0].ToString(CultureInfo.InvariantCulture) + "," +
                                           endParams[0].ToString(CultureInfo.InvariantCulture));
                     break;
                 case AnimationType.Scale:
-                    storyboardCode.Append(" S," + easing + "," + startTime + "," + endTime + "," +
+                    storyboardCode.Append(" S," + (int)easing + "," + startTime + "," + endTime + "," +
                                           startParams[0].ToString(CultureInfo.InvariantCulture) + "," +
                                           endParams[0].ToString(CultureInfo.InvariantCulture));
                     break;
                 case AnimationType.ScaleVec:
-                    storyboardCode.Append(" V," + easing + "," + startTime + "," + endTime + "," +
+                    storyboardCode.Append(" V," + (int)easing + "," + startTime + "," + endTime + "," +
                                           startParams[0].ToString(CultureInfo.InvariantCulture) + "," +
                                           startParams[1].ToString(CultureInfo.InvariantCulture) + "," +
                                           endParams[0].ToString(CultureInfo.InvariantCulture) + "," +
                                           endParams[1].ToString(CultureInfo.InvariantCulture));
                     break;
                 case AnimationType.Rotate:
-                    storyboardCode.Append(" R," + easing + "," + startTime + "," + endTime + "," +
+                    storyboardCode.Append(" R," + (int)easing + "," + startTime + "," + endTime + "," +
                                           startParams[0].ToString(CultureInfo.InvariantCulture) + "," +
                                           endParams[0].ToString(CultureInfo.InvariantCulture));
                     break;
                 case AnimationType.Color:
-                    storyboardCode.Append(" C," + easing + "," + startTime + "," + endTime + "," +
+                    storyboardCode.Append(" C," + (int)easing + "," + startTime + "," + endTime + "," +
                                           startParams[0].ToString(CultureInfo.InvariantCulture) + "," +
                                           startParams[1].ToString(CultureInfo.InvariantCulture) + "," +
                                           startParams[2].ToString(CultureInfo.InvariantCulture) + "," +
@@ -126,7 +126,7 @@ namespace SGL.Storyboard.Commands
 
         public override String ToString()
         {
-            return "SbAnimation (" + animationType + "): " + easing + "," + startTime + "," + endTime + "," +
+            return "SbAnimation (" + animationType + "): " + (int)easing + "," + startTime + "," + endTime + "," +
                    startParams + "," + endParams;
         }
     }

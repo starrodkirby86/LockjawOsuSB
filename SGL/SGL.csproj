@@ -60,6 +60,7 @@
     <Compile Include="Framework\Curve\Curve.cs" />
     <Compile Include="Framework\Curve\TransformedCurve.cs" />
     <Compile Include="Framework\SpriteGroup.cs" />
+    <Compile Include="Storyboard\Commands\EasingTypes.cs" />
     <Compile Include="Util\Vector2.cs" />
     <Compile Include="Framework\SpritePool.cs" />
     <Compile Include="Framework\SpritePools.cs" />

@@ -215,7 +215,7 @@ namespace Lockjaw
             }
         }
 
-        public void spiralRain(int startTime, int iterations, int spiralMax, int spiralRate)
+        public void spiralRain(int startTime, int iterations)
         {
             // Raincloud controller that forces a raincloud to move in an
             // Archimedes spiral. spiralMax controls how far it should head out,
@@ -239,25 +239,58 @@ namespace Lockjaw
                         var dropletStartTime = startTime + timeElapsed + delayCounter + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE);
                         var dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY * 2;
 
-                        for (int x3 = spiralRate; x3 < spiralMax; x3 += spiralRate)
+                        for (double x3 = 0.1; x3 < 1.1; x3 += 0.1)
                         {
                             // Generate Values for raindrop movement
 
                             // Movement plan:
-                            // This raindrop has a pathway until spiralMax.
-                            // In
-                            cloud[x2].rotate(dropletStartTime, angleCounter, true);
-                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, -x3, x3);
-                            cloud[x2].droplet.moveY(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, -x3, x3);
-                            // Out
-                            dropletStartTime = dropletStartTimeNext;
-                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY * 2;
-                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.OutSine, dropletStartTime, dropletStartTimeNext, x3, -x3);
-                            cloud[x2].droplet.moveY(SGL.Storyboard.Commands.EasingTypes.OutSine, dropletStartTime, dropletStartTimeNext, x3, -x3);
-                            dropletStartTime = dropletStartTimeNext;
-                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY * 2;
+                            // Take the individual raindrop and create its path from "startpoint" to "end of spiral".
+                            // After that, assign the next individual raindrop that same path, but with a slight delay.
+                            // [...] and so forth
 
-                            angleCounter += Math.PI / spiralMax / spiralRate;
+                            var  offsetA = (int)(BeatmapConstants.PLAYFIELD_WIDTH / 1.6);
+                            var  offsetB = (int)(BeatmapConstants.SCREEN_HEIGHT / 1.9);
+
+                            var finalX = (int) (x3 * (BeatmapConstants.SCREEN_WIDTH) + offsetA);
+                            var finalY = (int) (x3 * (BeatmapConstants.SCREEN_HEIGHT) + offsetB);
+
+                            cloud[x2].rotate(dropletStartTime, angleCounter, true);
+
+                            // Movement is a multiplier that slowly increases up towards the maximum spiral, which is the screen width or height
+
+                            // 0 to -
+                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, offsetA, -finalX);
+                            cloud[x2].droplet.moveY(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, offsetB, -finalY);
+
+                            dropletStartTime = dropletStartTimeNext;
+                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY;
+
+                            // - to 0
+                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, -finalX, offsetA);
+                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, -finalY, offsetB);
+
+                            x3 += 0.1;
+                            finalX = (int)(x3 * (BeatmapConstants.SCREEN_WIDTH) + offsetA);
+                            finalY = (int)(x3 * (BeatmapConstants.SCREEN_HEIGHT) + offsetB);
+
+                            dropletStartTime = dropletStartTimeNext;
+                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY;
+
+                            // 0 to +
+                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, offsetA, finalX);
+                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, offsetB, finalY);
+
+                            dropletStartTime = dropletStartTimeNext;
+                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY;
+
+                            // + to 0
+                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, finalX, offsetA);
+                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, finalY, offsetB);
+
+                            dropletStartTime = dropletStartTimeNext;
+                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY;
+
+                            angleCounter += Math.PI / 10;
                         }
 
                         delayCounter += 10;

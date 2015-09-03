@@ -95,10 +95,10 @@ namespace Lockjaw
             peppyOsu.addShift(81657, 16, 4822, -4822, true);
 
             peppyOsu.makeItRain(400, (int)(86457 / BeatmapConstants.RAINDROP_VELOCITY));
-            peppyOsu.circularRain(86457,(int)( (BeatmapConstants.SONG_END_OFFSET-86457) / BeatmapConstants.RAINDROP_VELOCITY ), 128);
+            peppyOsu.circularRain(86457,(int)( (96057-86457) / BeatmapConstants.RAINDROP_VELOCITY ), 128);
 
-            //var spiralRaincloud = new Raincloud();
-            //spiralRaincloud.spiralRain(96057, (int)(10));
+            var spiralRaincloud = new Raincloud();
+            spiralRaincloud.spiralRain(96057, (int)(10));
 
             peppyOsu.createWind(0, 0, 0);
 
@@ -106,7 +106,7 @@ namespace Lockjaw
 
             peppyOsu.createWind(72057, 80457, -15);
 
-            //peppyOsu.createWind(96056, 96056, 0);
+            peppyOsu.createWind(96056, 96056, 0);
 
         }
     }

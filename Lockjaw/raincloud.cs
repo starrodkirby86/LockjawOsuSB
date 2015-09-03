@@ -239,7 +239,9 @@ namespace Lockjaw
                         var dropletStartTime = startTime + timeElapsed + delayCounter + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE);
                         var dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY * 2;
 
-                        for (double x3 = 0.1; x3 < 1.1; x3 += 0.1)
+                        double x3 = 0;
+                        bool zeroCase = false;
+                        while(x3 < 1)
                         {
                             // Generate Values for raindrop movement
 
@@ -247,6 +249,9 @@ namespace Lockjaw
                             // Take the individual raindrop and create its path from "startpoint" to "end of spiral".
                             // After that, assign the next individual raindrop that same path, but with a slight delay.
                             // [...] and so forth
+
+                            // Loop plan -> (x+0.1)*-1
+                            // bool to say which one goes back to 0?
 
                             var  offsetA = (int)(BeatmapConstants.PLAYFIELD_WIDTH / 1.6);
                             var  offsetB = (int)(BeatmapConstants.SCREEN_HEIGHT / 1.9);
@@ -256,39 +261,23 @@ namespace Lockjaw
 
                             cloud[x2].rotate(dropletStartTime, angleCounter, true);
 
-                            // Movement is a multiplier that slowly increases up towards the maximum spiral, which is the screen width or height
+                            if (zeroCase)
+                                finalX = 0;
+                            else
+                                finalY = 0;
 
-                            // 0 to -
-                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, offsetA, -finalX);
-                            cloud[x2].droplet.moveY(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, offsetB, -finalY);
-
-                            dropletStartTime = dropletStartTimeNext;
-                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY;
-
-                            // - to 0
-                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, -finalX, offsetA);
-                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, -finalY, offsetB);
-
-                            x3 += 0.1;
-                            finalX = (int)(x3 * (BeatmapConstants.SCREEN_WIDTH) + offsetA);
-                            finalY = (int)(x3 * (BeatmapConstants.SCREEN_HEIGHT) + offsetB);
+                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.None, dropletStartTime, dropletStartTimeNext, cloud[x2].droplet.X, finalX);
+                            cloud[x2].droplet.moveY(SGL.Storyboard.Commands.EasingTypes.None, dropletStartTime, dropletStartTimeNext, cloud[x2].droplet.Y, finalY);
 
                             dropletStartTime = dropletStartTimeNext;
                             dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY;
 
-                            // 0 to +
-                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, offsetA, finalX);
-                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, offsetB, finalY);
+                            if (zeroCase)
+                                x3 = (x3 - 0.05) * -1;
+                            else
+                                x3 = (x3 + 0.05) * -1;
 
-                            dropletStartTime = dropletStartTimeNext;
-                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY;
-
-                            // + to 0
-                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, finalX, offsetA);
-                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropletStartTime, dropletStartTimeNext, finalY, offsetB);
-
-                            dropletStartTime = dropletStartTimeNext;
-                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY;
+                            zeroCase = !zeroCase;
 
                             angleCounter += Math.PI / 10;
                         }

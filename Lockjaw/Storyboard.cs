@@ -98,7 +98,7 @@ namespace Lockjaw
             peppyOsu.circularRain(86457,(int)( (96057-86457) / BeatmapConstants.RAINDROP_VELOCITY ), 128);
 
             var spiralRaincloud = new Raincloud();
-            spiralRaincloud.spiralRain(96057, (int)(10));
+            spiralRaincloud.spiralRain(96057, 18);
 
             peppyOsu.createWind(0, 0, 0);
 

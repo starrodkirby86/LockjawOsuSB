@@ -14,7 +14,7 @@ CLASS: Raincloud
     X -- Implement a controller that can change the collision map based off a list imported.
     X -- Implement a controller that can shift the collision map during a given time.
     X -- Implement circular rain.
-      -- Implement rain that follows an Archimedes spiral.
+    X -- Implement rain that follows an Archimedes spiral.
 */
 
 
@@ -68,6 +68,17 @@ namespace Lockjaw
         public System.Drawing.Point Polar2Cartesian(double radius, double radian)
         {
             return new System.Drawing.Point((int)(radius * Math.Cos(radian)), (int)(radius * Math.Sin(radian)));
+        }
+
+        public void hideUntil(int startTime)
+        {
+            // Sets the fade from 0 to the specified point
+            // But then set the fade as visible AT that point
+            for (int x2 = 0; x2 < cloud.Length; x2++)
+            {
+                cloud[x2].droplet.fade(0, startTime, 0, 0);
+                cloud[x2].droplet.fade(startTime, startTime, 0, cloud[x2].fadeSetting);
+            }
         }
 
         public void makeItRain(int startTime, int iterations)
@@ -215,81 +226,55 @@ namespace Lockjaw
             }
         }
 
-        public void spiralRain(int startTime, int iterations)
+        public void spiralRain(int startTime, double rate)
         {
             // Raincloud controller that forces a raincloud to move in an
-            // Archimedes spiral. spiralMax controls how far it should head out,
-            // while iterations controls how many times the spiral should execute.
-            int iterationCount = 0;
-            int timeElapsed = 0;
+            // Archimedes spiral. Will execute one spiral.
+
+            // Hide
+            hideUntil(startTime);
 
             // Remove the current collision map.
             clearMap();
 
-            while (iterationCount < iterations)
+            int delayCount = 0;
+
+            double angleCounter = 0;
+
+            // This outer loop navigates through all the rain droplets
+            for (int x2 = 0; x2 < cloud.Length; x2++)
             {
-                // Calling all droplets to duty.
-                // The raindrop will only drop if our given time is an iteration based off RAINDROP_VELOCITY
-                if (timeElapsed % BeatmapConstants.RAINDROP_VELOCITY == 0)
+                bool stateMachine = false;
+                bool zeroState = false;
+                int dropTime = startTime; 
+
+                cloud[x2].rotate(startTime, angleCounter, true);
+
+                // This inner loop handles the spiral algorithm
+                for(double point = 0; point < BeatmapConstants.SCREEN_WIDTH && startTime < BeatmapConstants.SONG_END_OFFSET; point += rate)
                 {
-                    int delayCounter = 0;
-                    double angleCounter = 0;
-                    for (int x2 = 0; x2 < cloud.Length; x2++)
+                    if(stateMachine)
                     {
-                        var dropletStartTime = startTime + timeElapsed + delayCounter + rng.Next(BeatmapConstants.DROP_VARIANCE * -1, BeatmapConstants.DROP_VARIANCE);
-                        var dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY * 2;
-
-                        double x3 = 0;
-                        bool zeroCase = false;
-                        while(x3 < 1)
-                        {
-                            // Generate Values for raindrop movement
-
-                            // Movement plan:
-                            // Take the individual raindrop and create its path from "startpoint" to "end of spiral".
-                            // After that, assign the next individual raindrop that same path, but with a slight delay.
-                            // [...] and so forth
-
-                            // Loop plan -> (x+0.1)*-1
-                            // bool to say which one goes back to 0?
-
-                            var  offsetA = (int)(BeatmapConstants.PLAYFIELD_WIDTH / 1.6);
-                            var  offsetB = (int)(BeatmapConstants.SCREEN_HEIGHT / 1.9);
-
-                            var finalX = (int) (x3 * (BeatmapConstants.SCREEN_WIDTH) + offsetA);
-                            var finalY = (int) (x3 * (BeatmapConstants.SCREEN_HEIGHT) + offsetB);
-
-                            cloud[x2].rotate(dropletStartTime, angleCounter, true);
-
-                            if (zeroCase)
-                                finalX = 0;
-                            else
-                                finalY = 0;
-
-                            cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.None, dropletStartTime, dropletStartTimeNext, cloud[x2].droplet.X, finalX);
-                            cloud[x2].droplet.moveY(SGL.Storyboard.Commands.EasingTypes.None, dropletStartTime, dropletStartTimeNext, cloud[x2].droplet.Y, finalY);
-
-                            dropletStartTime = dropletStartTimeNext;
-                            dropletStartTimeNext = dropletStartTime + BeatmapConstants.RAINDROP_VELOCITY;
-
-                            if (zeroCase)
-                                x3 = (x3 - 0.05) * -1;
-                            else
-                                x3 = (x3 + 0.05) * -1;
-
-                            zeroCase = !zeroCase;
-
-                            angleCounter += Math.PI / 10;
-                        }
-
-                        delayCounter += 10;
+                        // Run x-spiral
+                        cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.InSine, dropTime + delayCount, dropTime + BeatmapConstants.RAINDROP_VELOCITY + delayCount, cloud[x2].droplet.X, (2 * (Convert.ToInt32(zeroState) - 1) * point));
+                        cloud[x2].droplet.moveY(SGL.Storyboard.Commands.EasingTypes.OutSine, dropTime + delayCount, dropTime + BeatmapConstants.RAINDROP_VELOCITY + delayCount, cloud[x2].droplet.Y, 240 + rng.Next( (int)(BeatmapConstants.DROP_VARIANCE * -1 * 0.25) , (int)(BeatmapConstants.DROP_VARIANCE * 0.25) ) );
+                        zeroState = !zeroState;
                     }
-                    // Increment the iteration count.
-                    iterationCount++;
-                }
+                    else
+                    {
+                        // Run y-spiral
+                        cloud[x2].droplet.moveY(SGL.Storyboard.Commands.EasingTypes.InSine, dropTime + delayCount, dropTime + BeatmapConstants.RAINDROP_VELOCITY + delayCount, cloud[x2].droplet.Y, (2 * (Convert.ToInt32(zeroState) - 1) * point));
+                        cloud[x2].droplet.moveX(SGL.Storyboard.Commands.EasingTypes.OutSine, dropTime + delayCount, dropTime + BeatmapConstants.RAINDROP_VELOCITY + delayCount, cloud[x2].droplet.X, 640 + rng.Next((int)(BeatmapConstants.DROP_VARIANCE * -1 * 0.25), (int)(BeatmapConstants.DROP_VARIANCE * 0.25) ) );
+                    }
 
-                // Queue for the next wrap.
-                timeElapsed++;
+                    // Change for next iteration for the point
+                    stateMachine = !stateMachine;
+                    dropTime += BeatmapConstants.RAINDROP_VELOCITY;
+                }
+                
+                // Delay for next states
+                delayCount += 1;
+                angleCounter += Math.PI / cloud.Length;
             }
 
         }

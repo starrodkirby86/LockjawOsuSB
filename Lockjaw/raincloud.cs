@@ -15,6 +15,7 @@ CLASS: Raincloud
     X -- Implement a controller that can shift the collision map during a given time.
     X -- Implement circular rain.
     X -- Implement rain that follows an Archimedes spiral.
+      -- Better transition for when rain ends (that isn't the traditional controller)
 */
 
 
@@ -78,6 +79,17 @@ namespace Lockjaw
             {
                 cloud[x2].droplet.fade(0, startTime, 0, 0);
                 cloud[x2].droplet.fade(startTime, startTime, 0, cloud[x2].fadeSetting);
+            }
+        }
+
+        public void hideAll(int startTime)
+        {
+            // Sets the fade for all raindrops from
+            // startTime to 0. The rate is based on
+            // the RAINDROP_VELOCITY parameter.
+            for (int x2 = 0; x2 < cloud.Length; x2++)
+            {
+                cloud[x2].droplet.fade(0, startTime, startTime + BeatmapConstants.RAINDROP_VELOCITY, cloud[x2].fadeSetting, 0);
             }
         }
 
@@ -173,7 +185,7 @@ namespace Lockjaw
             }
         }
 
-        public void circularRain(int startTime, int iterations, double radius)
+        public void circularRain(int startTime, int iterations, double radius, bool fadeEnding)
         {
             // Creates a special effect utilizing the raindrops to make a circular surrounding.
             // The raindrops go towards the center to create a focus on the center of the screen.
@@ -224,6 +236,10 @@ namespace Lockjaw
                 // Queue for the next wrap.
                 timeElapsed++;
             }
+
+            //  Fade all droplets out as the raindrop is done.
+            if(fadeEnding)
+                hideAll(startTime + timeElapsed - BeatmapConstants.RAINDROP_VELOCITY);
         }
 
         public void spiralRain(int startTime, double rate)
@@ -232,7 +248,7 @@ namespace Lockjaw
             // Archimedes spiral. Will execute one spiral.
 
             // Hide
-            hideUntil(startTime);
+            hideUntil(startTime + cloud.Length);
 
             // Remove the current collision map.
             clearMap();

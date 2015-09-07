@@ -77,19 +77,23 @@ namespace Lockjaw
             // But then set the fade as visible AT that point
             for (int x2 = 0; x2 < cloud.Length; x2++)
             {
-                cloud[x2].droplet.fade(0, startTime, 0, 0);
-                cloud[x2].droplet.fade(startTime, startTime, 0, cloud[x2].fadeSetting);
+                cloud[x2].droplet.fade(0, startTime - BeatmapConstants.RAINDROP_VELOCITY, 0, 0);
+                cloud[x2].droplet.fade(startTime - BeatmapConstants.RAINDROP_VELOCITY, startTime, 0, cloud[x2].fadeSetting);
             }
         }
 
-        public void hideAll(int startTime)
+        public void hideAll(int startTime, bool tween)
         {
             // Sets the fade for all raindrops from
             // startTime to 0. The rate is based on
             // the RAINDROP_VELOCITY parameter.
+            // If tween is false, it is an instantaneous hide.
             for (int x2 = 0; x2 < cloud.Length; x2++)
             {
-                cloud[x2].droplet.fade(0, startTime, startTime + BeatmapConstants.RAINDROP_VELOCITY, cloud[x2].fadeSetting, 0);
+                if(tween)
+                    cloud[x2].droplet.fade(0, startTime, startTime + BeatmapConstants.RAINDROP_VELOCITY, cloud[x2].fadeSetting, 0);
+                else
+                    cloud[x2].droplet.fade(0, startTime, startTime, 0, 0);
             }
         }
 
@@ -239,7 +243,7 @@ namespace Lockjaw
 
             //  Fade all droplets out as the raindrop is done.
             if(fadeEnding)
-                hideAll(startTime + timeElapsed - BeatmapConstants.RAINDROP_VELOCITY);
+                hideAll(startTime + timeElapsed - BeatmapConstants.RAINDROP_VELOCITY, true);
         }
 
         public void spiralRain(int startTime, double rate)

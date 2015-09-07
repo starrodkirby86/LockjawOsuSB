@@ -108,6 +108,19 @@ namespace Lockjaw
 
             peppyOsu.createWind(96056, 96056, 0);
 
+            // Cool cinematics buzzkills
+            var topCutsceneBars = SB.Sprite("sb\\foo.png", SB.Foreground, SB.TopCentre);
+            topCutsceneBars.color(System.Drawing.Color.LimeGreen);
+            topCutsceneBars.fade(0.2);
+            topCutsceneBars.scaleVec(BeatmapConstants.SCREEN_WIDTH, 180);
+            topCutsceneBars.move(SGL.Storyboard.Commands.EasingTypes.InBounce, 19257, 19257 + (int)BeatmapConstants.BEAT_QUARTER * 4, 0, 0, 0, 180);
+
+            var botCutsceneBars = SB.Sprite("sb\\foo.png", SB.Foreground, SB.BottomCentre);
+            botCutsceneBars.color(System.Drawing.Color.PowderBlue);
+            botCutsceneBars.fade(0.2);
+            botCutsceneBars.scaleVec(BeatmapConstants.SCREEN_WIDTH, 180);
+            botCutsceneBars.move(SGL.Storyboard.Commands.EasingTypes.InBounce, 19257, 19257 + (int)BeatmapConstants.BEAT_QUARTER * 4, 0, 480, 0, 300);
+
         }
     }
 }

@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 using SGL.Elements;
 using SGL.Storyboard.Commands;
 using SGL.Util;
@@ -379,11 +380,33 @@ namespace SGL.Storyboard.Generators.Visual {
 			color(0, 0, 0, startRed, startGreen, startBlue, startRed, startGreen, startBlue);
 		}
 
-		#endregion
+        public void color(EasingTypes easing, int startTime, int endTime, 
+                          System.Drawing.Color startColor, System.Drawing.Color endColor) {
+            color(easing, startTime, endTime, startColor.R, startColor.G, startColor.B, endColor.R, endColor.G, endColor.B);
+        }
 
-		#region colorHsb
+        public void color(int startTime, int endTime,
+                          System.Drawing.Color startColor, System.Drawing.Color endColor)
+        {
+            color(0, startTime, endTime, startColor.R, startColor.G, startColor.B, endColor.R, endColor.G, endColor.B);
+        }
 
-		public virtual void colorHsb(EasingTypes easing, int startTime, int endTime, double startHue, double startSaturation, double startBrightness, double endHue, double endSaturation, double endBrightness) {
+        public void color(int startTime,
+                          System.Drawing.Color startColor)
+        {
+            color(0, startTime, startTime, startColor.R, startColor.G, startColor.B, startColor.R, startColor.G, startColor.B);
+        }
+
+        public void color(System.Drawing.Color startColor)
+        {
+            color(0, 0, 0, startColor.R, startColor.G, startColor.B, startColor.R, startColor.G, startColor.B);
+        }
+
+        #endregion
+
+        #region colorHsb
+
+        public virtual void colorHsb(EasingTypes easing, int startTime, int endTime, double startHue, double startSaturation, double startBrightness, double endHue, double endSaturation, double endBrightness) {
 			int startRed, startGreen, startBlue, endRed, endGreen, endBlue;
 			ColorUtil.HsbToRgb(startHue, startSaturation, startBrightness, out startRed, out startGreen, out startBlue);
 			ColorUtil.HsbToRgb(endHue, endSaturation, endBrightness, out endRed, out endGreen, out endBlue);

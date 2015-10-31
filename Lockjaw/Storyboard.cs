@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SGL.Framework;
+using SGL.Storyboard.Commands;
 
 // Ensure that the Namespace is the same as your
 // project's name. (So in this case, because this
@@ -69,6 +70,57 @@ namespace Lockjaw
             // Main code goes here.
             // All code in here will belong in the .osb file.
 
+
+            // So this part is dedicated to generating the rain...
+            var mainCloud = new Raincloud();
+
+            // Generate rain
+            mainCloud.stackLightning(BeatmapConstants.SONG_BOOK3,48);
+
+            // Chorus phase
+            // Generating the rain
+            mainCloud.circularRain(BeatmapConstants.SONG_BOOK7, (int)((BeatmapConstants.SONG_BOOK8 - BeatmapConstants.SONG_BOOK7) / BeatmapConstants.RAINDROP_VELOCITY), 128, true);
+
+            // Pass/Fail for this portion
+            var logoGood = SB.Sprite("sb\\dk.png", SB.Pass, SB.Centre);
+            var logoBad = SB.Sprite("sb\\krem.png", SB.Fail, SB.Centre);
+
+            logoGood.move(0, 0, 0, 320, 240, 320, 240);
+            logoBad.move(0, 0, 0, 320, 240, 320, 240);
+            logoGood.scale(0, 0, 0, 0.3, 0.3);
+            logoBad.scale(0, 0, 0, 0.3, 0.3);
+
+            logoGood.fade(0, BeatmapConstants.SONG_BOOK7, BeatmapConstants.SONG_BOOK7, 0, 1);
+            logoBad.fade(0, BeatmapConstants.SONG_BOOK7, BeatmapConstants.SONG_BOOK7, 0, 1);
+
+            logoGood.fade(0, BeatmapConstants.SONG_BOOK8 - (int)(BeatmapConstants.BEAT_QUARTER) * 4, BeatmapConstants.SONG_BOOK8, 1, 0);
+            logoBad.fade(0, BeatmapConstants.SONG_BOOK8 - (int)(BeatmapConstants.BEAT_QUARTER) * 4, BeatmapConstants.SONG_BOOK8, 1, 0);
+
+            // Spiral portion at end
+            var spiralRaincloud = new Raincloud();
+            spiralRaincloud.hideAll(0, false);
+            spiralRaincloud.spiralRain( (BeatmapConstants.SONG_BOOK8 - (int)(BeatmapConstants.BEAT_QUARTER)*4), 12);
+
+            // Pass/Fail lightning
+            var passFailStrobe = SB.Sprite("sb\\foo.png", SB.Background, SB.Centre);
+            passFailStrobe.move(0, 0, 320, 240, 320, 240);
+            passFailStrobe.scale(0, 0, 0, 1366, 768);
+            passFailStrobe.fade(0, 0);
+
+            passFailStrobe.startTriggerLoop("Passing", BeatmapConstants.SONG_BOOK7, BeatmapConstants.SONG_BOOK8);
+            passFailStrobe.fade(0, 0, (int)BeatmapConstants.BEAT_QUARTER*2, 0.5, 0);
+            passFailStrobe.endLoop();
+
+            
+            passFailStrobe.startTriggerLoop("Failing", BeatmapConstants.SONG_BOOK7, BeatmapConstants.SONG_BOOK8);
+            passFailStrobe.fade(0, 0, (int)BeatmapConstants.BEAT_QUARTER * 2, 1, 0);
+            passFailStrobe.endLoop();
+            
+
+            /*
+
+            // OLD CODE
+
             // Background
             var tempBG = SB.Sprite("sb\\kq.png", SB.Background, SB.TopCentre);
             tempBG.move(0, 0, 0, 320, -10, 320, -10);
@@ -121,6 +173,8 @@ namespace Lockjaw
             botCutsceneBars.fade(0.2);
             botCutsceneBars.scaleVec(BeatmapConstants.SCREEN_WIDTH, 180);
             botCutsceneBars.move(SGL.Storyboard.Commands.EasingTypes.InBounce, 19257, 19257 + (int)BeatmapConstants.BEAT_QUARTER * 4, 0, 480, 0, 300);
+
+            */
 
         }
     }

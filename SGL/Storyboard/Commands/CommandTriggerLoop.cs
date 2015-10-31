@@ -20,7 +20,7 @@ using System.Text;
 
 namespace SGL.Storyboard.Commands
 {
-    class CommandTriggerLoop : CommandLoop
+    public class CommandTriggerLoop : CommandLoop
     {
         private String triggerName;
         private int endTime;

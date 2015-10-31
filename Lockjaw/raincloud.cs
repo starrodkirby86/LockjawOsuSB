@@ -16,6 +16,8 @@ CLASS: Raincloud
     X -- Implement circular rain.
     X -- Implement rain that follows an Archimedes spiral.
       -- Better transition for when rain ends (that isn't the traditional controller)
+    X -- Implement a lightning flash function.
+    X -- Implement a smart controller for the lightning.
 */
 
 
@@ -25,6 +27,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SGL.Framework;
+using SGL.Storyboard.Commands;
 
 namespace Lockjaw
 {
@@ -38,6 +42,7 @@ namespace Lockjaw
         public CollisionMap NoNoRegion;
         public List<CollisionNode> regionList;
         public List<ShiftNode> shiftList;
+        SGL.Storyboard.Generators.Visual.SpriteGenerator strobeLight = SB.Sprite("sb\\foo.png", SB.Background, SB.Centre);
 
         // Method
 
@@ -299,6 +304,39 @@ namespace Lockjaw
 
         }
 
+        public void initializeLightning()
+        {
+            // Procedure to initialize lightning. Used to help clean code.
+            strobeLight.move(0, 0, 320, 240, 320, 240);
+            strobeLight.scaleVec(0, 0, 0, 1366, 768, 1366, 768);
+            strobeLight.fade(0, 0);
+            //strobeLight.color(0, 0, System.Drawing.Color.White, System.Drawing.Color.White); // I think it's already white
+        }
+
+        public void createLightning(int startTime, double intensity)
+        {
+            // Generates a lightning strobe. Lightning strobes have
+            // a quarter beat length of flash.
+            strobeLight.fade((EasingTypes)rng.Next(0,31), startTime, startTime + (int)BeatmapConstants.BEAT_QUARTER*rng.Next(1,4), intensity, 0);
+        }
+
+        public void stackLightning(int startTime, int iterations)
+        {
+            // During this portion of time, lightning will randomly spawn
+            // for x measures, determined by iterations.
+            // The intensity is also variable too.
+            for(int i = 0; i < iterations; ++i)
+            {
+                if(rng.Next(0,10) > 3)
+                {
+                    // Generate lightning
+                    createLightning(startTime, (rng.Next(0,73)*0.01));
+                }
+                startTime += (int)BeatmapConstants.BEAT_QUARTER * 4;
+            }
+
+        }
+
         // Instance Constructor
         public Raincloud()
         {
@@ -308,6 +346,7 @@ namespace Lockjaw
             NoNoRegion = new CollisionMap();
             regionList = new List<CollisionNode>();
             shiftList = new List<ShiftNode>();
+            initializeLightning();
             clearMap();
 
             for(int x = 0; x < cloud.Length; x++)

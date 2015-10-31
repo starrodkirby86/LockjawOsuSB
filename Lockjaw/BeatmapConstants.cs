@@ -22,6 +22,16 @@ namespace Lockjaw
         public const double BEAT_EIGHTH = BEAT_QUARTER / 2;
         public const double BEAT_SIXTEENTH = BEAT_QUARTER / 4;
 
+        // Checkpoints
+        public const int SONG_BOOK1 = 9657;     // Song begin
+        public const int SONG_BOOK2 = 19257;    // Buildup
+        public const int SONG_BOOK3 = 38457;    // The pursuit section
+        public const int SONG_BOOK4 = 52857;    // Break
+        public const int SONG_BOOK5 = 57657;    // Break end, drums
+        public const int SONG_BOOK6 = 62457;    // Pursuit Part 2
+        public const int SONG_BOOK7 = 86457;    // Chorus
+        public const int SONG_BOOK8 = 105657;   // Outro
+        public const int SONG_BOOK9 = 115257;   // ENDING
 
         // !!!!
         // WINDOW SPECIFIC CONSTANTS

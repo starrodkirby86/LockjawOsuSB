@@ -74,8 +74,16 @@ namespace Lockjaw
             // So this part is dedicated to generating the rain...
             var mainCloud = new Raincloud();
 
+            // Initialize rain
+            mainCloud.correlateMapToImage("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\krool.bmp", "sb\\krool_pursuit.png", BeatmapConstants.SONG_BOOK3, 16);
+
             // Generate rain
+            mainCloud.makeItRain(0,(int)(BeatmapConstants.SONG_BOOK7 / BeatmapConstants.RAINDROP_VELOCITY));
+            mainCloud.createWind(0, 0, 0);
             mainCloud.stackLightning(BeatmapConstants.SONG_BOOK3,48);
+
+            // Pursuit
+            //mainCloud.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\tryhard.bmp", BeatmapConstants.SONG_BOOK3);
 
             // Chorus phase
             // Generating the rain

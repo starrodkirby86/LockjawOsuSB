@@ -18,6 +18,7 @@ CLASS: Raincloud
       -- Better transition for when rain ends (that isn't the traditional controller)
     X -- Implement a lightning flash function.
     X -- Implement a smart controller for the lightning.
+      -- Create a collisionMap and image correlator.
 */
 
 
@@ -335,6 +336,25 @@ namespace Lockjaw
                 startTime += (int)BeatmapConstants.BEAT_QUARTER * 4;
             }
 
+        }
+
+        public void correlateMapToImage(string mapPath, string assetName, int startTime, int iterations)
+        {
+            // Will correspond a collision map to an asset.
+            // Iterations are series of measures.
+
+            clearMap();
+            addRegion(mapPath, startTime);
+            var mapSprite = SB.Sprite(assetName, SB.Foreground, SB.Centre);
+            mapSprite.move(0, 0, 320, 330, 320, 330);
+            mapSprite.fade(0, 0, 0, 0, 0);
+            
+            for(int i = 0; i < iterations; i++)
+            {
+                mapSprite.fade(0, startTime, startTime, 1, 1);
+                startTime += (int)BeatmapConstants.BEAT_QUARTER * 4;
+            }
+            mapSprite.fade(0, startTime, startTime, 0, 0);
         }
 
         // Instance Constructor

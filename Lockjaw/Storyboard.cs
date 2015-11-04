@@ -70,20 +70,39 @@ namespace Lockjaw
             // Main code goes here.
             // All code in here will belong in the .osb file.
 
+            // Generate background
+            var tempBG = SB.Sprite("sb\\palmtrees.jpg", SB.Background, SB.TopCentre);
+            tempBG.move(0, 0, 0, 320, 0, 320, 0);
+            tempBG.fade(0, 0, BeatmapConstants.SONG_END_OFFSET, 1, 1);
+
 
             // So this part is dedicated to generating the rain...
             var mainCloud = new Raincloud();
 
             // Initialize rain
             mainCloud.correlateMapToImage("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\krool.bmp", "sb\\krool_pursuit.png", BeatmapConstants.SONG_BOOK3, 16);
+            mainCloud.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\blank.bmp", BeatmapConstants.SONG_BOOK5);
 
             // Generate rain
             mainCloud.makeItRain(0,(int)(BeatmapConstants.SONG_BOOK7 / BeatmapConstants.RAINDROP_VELOCITY));
             mainCloud.createWind(0, 0, 0);
+            mainCloud.createLightning(0, 1);
             mainCloud.stackLightning(BeatmapConstants.SONG_BOOK3,48);
 
-            // Pursuit
-            //mainCloud.addRegion("D:\\Alice\\osu!\\C sharp codes\\LOCKJAW\\Lockjaw\\img\\tryhard.bmp", BeatmapConstants.SONG_BOOK3);
+            // Pursuit -- Yes, the wind could work as a loop with the counter as an iterator, but this way
+            // things are more explicit
+            int pursuitCounter = BeatmapConstants.SONG_BOOK6 + (int)(BeatmapConstants.BEAT_QUARTER) * 16;
+            mainCloud.createWind(BeatmapConstants.SONG_BOOK6, pursuitCounter, 15);
+            pursuitCounter += (int)(BeatmapConstants.BEAT_QUARTER) * 16;
+            mainCloud.createWind(pursuitCounter, pursuitCounter + (int)(BeatmapConstants.BEAT_QUARTER) * 16, -15);
+            pursuitCounter += (int)(BeatmapConstants.BEAT_QUARTER) * 16;
+            mainCloud.createWind(pursuitCounter, pursuitCounter + (int)(BeatmapConstants.BEAT_QUARTER) * 32, 45);
+            pursuitCounter += (int)(BeatmapConstants.BEAT_QUARTER) * 32;
+            mainCloud.createWind(pursuitCounter, pursuitCounter + (int)(BeatmapConstants.BEAT_QUARTER) * 32, -45);
+
+            // Pursuit hype
+            mainCloud.createWind(BeatmapConstants.SONG_BOOK6_A, BeatmapConstants.SONG_BOOK6_A + (int)(BeatmapConstants.BEAT_QUARTER) * 16, -90);
+
 
             // Chorus phase
             // Generating the rain

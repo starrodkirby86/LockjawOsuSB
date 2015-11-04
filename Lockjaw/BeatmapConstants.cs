@@ -33,6 +33,9 @@ namespace Lockjaw
         public const int SONG_BOOK8 = 105657;   // Outro
         public const int SONG_BOOK9 = 115257;   // ENDING
 
+        // Non-bookmarked checkpoints
+        public const int SONG_BOOK6_A = 81657;  // EXPAND DONG HYPE
+
         // !!!!
         // WINDOW SPECIFIC CONSTANTS
         // !!!!

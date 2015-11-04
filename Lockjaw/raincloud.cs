@@ -179,20 +179,18 @@ namespace Lockjaw
         public void createWind(int startTime, int endTime, int degInput)
         {
             // Simulates the effect of wind by rotating the raindrops a certain way and
-            // having them move based off the angleOffset.
+            // having them move based off the angleOffset. Because they are in degrees,
+            // the Boolean is set to false. (Otherwise, it's rads)
+            // Note that this also needs to consider the raindrop's velocity
             // Assume that no wind is rad 0.
 
             // Begin the rotation
             for (int x2 = 0; x2 < cloud.Length; x2++)
             {
                 cloud[x2].rotate(startTime, degInput, false);
-            }
-
-            // End the rotation
-            for (int x2 = 0; x2 < cloud.Length; x2++)
-            {
                 cloud[x2].rotate(endTime, 0, false);
             }
+
         }
 
         public void circularRain(int startTime, int iterations, double radius, bool fadeEnding)

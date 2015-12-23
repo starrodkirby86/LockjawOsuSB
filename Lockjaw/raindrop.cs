@@ -17,6 +17,7 @@ CLASS: Raindrop
     X -- Create rotation and angleOffset in droplet movement.
     X -- Develop algorithm for the NoNo region.
       -- Implement a change of color (maybe?)
+      -- Optimize the raindrops to work off loops instead of move commands.
 
 */
 

@@ -19,6 +19,7 @@ CLASS: Raincloud
     X -- Implement a lightning flash function.
     X -- Implement a smart controller for the lightning.
       -- Create a collisionMap and image correlator.
+      -- Optimize the raincloud to work off loops instead of move commands.
 */
 
 
@@ -341,15 +342,36 @@ namespace Lockjaw
             // Will correspond a collision map to an asset.
             // Iterations are series of measures.
 
+            // Collision map sprite is going to move around.
+
+            // Initialization
             clearMap();
             addRegion(mapPath, startTime);
             var mapSprite = SB.Sprite(assetName, SB.Foreground, SB.Centre);
             mapSprite.move(0, 0, 320, 330, 320, 330);
             mapSprite.fade(0, 0, 0, 0, 0);
-            
+            mapSprite.fade(0, startTime, startTime, 1, 1);
+
+            // Movement:
+            // Movement is randomized
+            // --> During each iteration...
+            // --> The sprite spawns at location x (only horizontal shift)
+            // --> After a measure, the location...
+            // ----> will shift (if mapSprite.x is past 400, it moves left, otherwise it moves right)
+            // ----> this distance is randomized, and then an addshift node is also considered with
+            // ----> with the same distance moved.
+            // ----> mapSprite.x moves from cur -> [random], addShift x |(cur - [random])| * (-1) or (1) if L/R
             for(int i = 0; i < iterations; i++)
             {
-                mapSprite.fade(0, startTime, startTime, 1, 1);
+                int distTravel = rng.Next(-400, 400); // Used for [random]
+                if (mapSprite.X > (int)(BeatmapConstants.SCREEN_WIDTH) / 2)
+                    distTravel *= -1; // It would move left instead
+
+                // Moving right or left? Collision map needs to shift corresponding to that
+                mapSprite.move(startTime, startTime, mapSprite.X + distTravel, mapSprite.Y, mapSprite.X + distTravel, mapSprite.Y);
+                //addShift(50000, 5000, 5000, -300, true);
+                addShift(startTime, 16, distTravel, 0, false); // The collision map isn't updated enough :( WHATEVER
+                 
                 startTime += (int)BeatmapConstants.BEAT_QUARTER * 4;
             }
             mapSprite.fade(0, startTime, startTime, 0, 0);

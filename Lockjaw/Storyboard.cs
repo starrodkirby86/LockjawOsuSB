@@ -86,7 +86,7 @@ namespace Lockjaw
             // Generate rain
             mainCloud.makeItRain(0,(int)(BeatmapConstants.SONG_BOOK7 / BeatmapConstants.RAINDROP_VELOCITY));
             mainCloud.createWind(0, 0, 0);
-            mainCloud.createLightning(0, 1);
+            mainCloud.createLightning(0,1);
             mainCloud.stackLightning(BeatmapConstants.SONG_BOOK3,48);
 
             // Pursuit -- Yes, the wind could work as a loop with the counter as an iterator, but this way
